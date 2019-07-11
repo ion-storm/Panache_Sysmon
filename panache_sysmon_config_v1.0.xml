@@ -52,8 +52,9 @@
 	  <CommandLine condition="contains">passw</CommandLine>
 	  <CommandLine condition="contains"> administrator </CommandLine><!-- do not remove the spaces -->
 	  <CommandLine condition="contains">portproxy</CommandLine>
+	  <CommandLine condition="contains">Zone.Identifier</CommandLine><!-- manually tampering with ZI data to avoid some warnings or OS soft restrict -->
 	  <CommandLine condition="contains">listena</CommandLine><!-- netsh portproxy listenaddress -->
-      <CommandLine condition="contains">admin$</CommandLine>
+	  <CommandLine condition="contains">admin$</CommandLine>
 	  <CommandLine condition="contains">c$</CommandLine>
 	  <CommandLine condition="contains">\\</CommandLine>
 	  <CommandLine condition="contains">ScriptFile=</CommandLine>
