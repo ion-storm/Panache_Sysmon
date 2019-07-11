@@ -101,6 +101,7 @@
 	  <Image condition="end with">.png</Image>
 	  <Image condition="end with">.inf</Image>
 	  <!-- DLL Side Loading - BYOV -->
+	    <Hashes condition="contains">432d70ea009c8dfdaf9488f97182c4ec</Hashes> <!-- imphash of russian free AV avz.exe used for sideloading -->
 	  <Hashes condition="contains">4D160E93273AC909FE2AA0EE9D25C905DEC43082</Hashes> <!-- credwiz.exe https://app.any.run/tasks/3fcfd265-ef80-4749-a24b-39364a079802 -->
 	  <Hashes condition="contains">4e1e0b8b0673937415599bf2f24c44ad</Hashes><!-- signed McAfee binary filename: mcvsmap.ex -->
 	  <Hashes condition="contains">884d46c01c762ad6ddd2759fd921bf71</Hashes><!-- Signed McAfee binary for sideloading mcf.exe-->
