@@ -986,6 +986,7 @@
 	  <ImageLoaded condition="contains">\Windows\IME\</ImageLoaded>	  
 	  
 	  <!-- DLL Side Loading - Bring Your Own Vulnerability - http://www.hexacorn.com/blog/2016/0/page/31/-->
+	    <ImageLoaded condition="end with">winspool.drv</ImageLoaded><!-- loaded by avz.exe free AV https://www.welivesecurity.com/2019/07/11/buhtrap-zero-day-espionage-campaigns/ -->
 	  <ImageLoaded condition="end with">WptsExtensions.dll</ImageLoaded> <!-- https://remoteawesomethoughts.blogspot.com/2019/05/windows-10-task-schedulerservice.html -->
 	  <ImageLoaded condition="end with">NvSmartMax.dll</ImageLoaded> <!--https://quequero.org/2013/09/quick-analysissome-observation-about-a-low-detection-flash_update-exe/ -->
 	  <ImageLoaded condition="end with">Duser.dll</ImageLoaded> <!-- https://app.any.run/tasks/3fcfd265-ef80-4749-a24b-39364a079802 loaded by credwiz.exe -->
@@ -1488,6 +1489,7 @@
 	  <!-- add Tymur slides content and add https://github.com/Neo23x0/sigma/blob/master/rules/windows/sysmon/sysmon_powershell_exploit_scripts.yml for ps -->
 	  
       <!-- side loading -->
+	    <TargetFilename condition="end with">winspool.drv</TargetFilename> <!-- loaded by avz.exe free AV -->
 	  <TargetFilename condition="end with">ssMUIDLL.dll</TargetFilename> <!-- op cell phone - https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers -->
 	  <TargetFilename condition="end with">credwiz.exe</TargetFilename> <!-- side loading with legit credwiz.exe https://app.any.run/tasks/3fcfd265-ef80-4749-a24b-39364a079802 -->
       <TargetFilename condition="end with">NvSmartMaxapp.dll</TargetFilename> <!--DLL side loading: https://quequero.org/2013/09/quick-analysissome-observation-about-a-low-detection-flash_update-exe/ -->
