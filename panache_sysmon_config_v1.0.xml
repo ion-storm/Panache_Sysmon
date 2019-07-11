@@ -181,7 +181,8 @@
 	  <Image condition="image">qprocess.exe</Image>
 	  <Image condition="image">rwinsta.exe</Image>
 	  <Image condition="image">nbtstat.exe</Image>
-      <Image condition="image">klist.exe</Image>
+	  <Image condition="image">nltest.exe</Image>
+	  <Image condition="image">klist.exe</Image>
 	  <Image condition="image">reg.exe</Image>
 	  <Image condition="image">tree.com</Image>
 	  <Description condition="contains">Registry Console Tool</Description>
