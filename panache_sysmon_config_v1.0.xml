@@ -1687,6 +1687,7 @@
 	  <TargetObject condition="contains" name="Persistence - Access COM Addins">\Access\Addins\</TargetObject>
 	  <TargetObject condition="contains" name="Persistence - Powerpoint COM Addins">\Powerpoint\Addins\</TargetObject>
 	  <TargetObject condition="contains" name="Persistence - VBE Addins">Software\Microsoft\VBA\VBE\6.0\Addins</TargetObject>
+	  <TargetObject condition="contains" name="Persistence - Office Test RegKey">Software\Microsoft\Office test\Special\Perf</TargetObject><!-- http://www.hexacorn.com/blog/2014/04/16/beyond-good-ol-run-key-part-10/ -->
 	  <TargetObject condition="end with" name="Persistence - Macro Auto Loading enabled on outlook">Outlook\LoadMacroProviderOnBoot</TargetObject>
 	  
 	  <TargetObject condition="contains" name="Persistence via SilentProcessExit hijack">CurrentVersion\SilentProcessExit</TargetObject>
