@@ -1652,7 +1652,7 @@
 
     <RegistryEvent onmatch="include">
 	  <!-- <TargetObject name="Defense Evasion - Removes Office resiliency keys" condition="contains">RESILIENCY\STARTUPITEMS</TargetObject> -->
-	    <TargetObject condition="contains" name="Persistence - injecting a 64-bit DLL into a 32-bit process">HKLM\SOFTWARE\Microsoft\Wow64\x86\processname</TargetObject> <!-- http://www.hexacorn.com/blog/2019/07/11/beyond-good-ol-run-key-part-108-2/ -->
+	    <TargetObject condition="contains" name="Persistence - injecting a 64-bit DLL into a 32-bit process">SOFTWARE\Microsoft\Wow64\x86\</TargetObject> <!-- http://www.hexacorn.com/blog/2019/07/11/beyond-good-ol-run-key-part-108-2/ -->
 	    <!-- startup regkeys -->
 	  <TargetObject condition="end with" name="Persistence - Startup User Shell Folder Modified">software\microsoft\windows\currentversion\explorer\user shell folders\startup</TargetObject> <!-- https://app.any.run/tasks/60700042-753e-4f5f-814c-5297d8423cc2/ -->
 	  <!-- RDP Hijack related keys -->
