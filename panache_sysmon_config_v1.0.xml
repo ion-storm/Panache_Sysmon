@@ -170,6 +170,7 @@
 	  <Image condition="image">csc.exe</Image><!-- delete me -->
 	  <Image condition="image">systeminfo.exe</Image>
 	  <Image condition="image">where.exe</Image>
+	  <Image condition="image">arp.exe</Image>
 	  <Image condition="image">findstr.exe</Image>
 	  <Image condition="image">find.exe</Image>	  
 	  <Image condition="image">route.exe</Image>
