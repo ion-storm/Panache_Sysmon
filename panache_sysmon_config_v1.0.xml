@@ -1031,6 +1031,9 @@
 	  <!-- <SignatureStatus>Valid</SignatureStatus> --> <!-- good for a better visibility on unsigned modules loading -->
 	  <Image>C:\Program Files\Microsoft Policy Platform\policyHost.exe</Image>
 	  <ImageLoaded>C:\Windows\System32\cryptbase.dll</ImageLoaded>
+	   <ImageLoaded>C:\Windows\SysWOW64\winspool.drv</ImageLoaded>
+	   <ImageLoaded>C:\Windows\System32\winspool.drv</ImageLoaded>
+	   <ImageLoaded condition="begin with">PathC:\Windows\WinSxS</ImageLoaded>
 	  <ImageLoaded>C:\Windows\System32\amsi.dll</ImageLoaded>
 	  <ImageLoaded>C:\Windows\System32\msi.dll</ImageLoaded>
 	  <ImageLoaded>C:\Windows\System32\userenv.dll</ImageLoaded>
