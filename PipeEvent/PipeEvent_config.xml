@@ -1,0 +1,42 @@
+<Sysmon schemaversion="4.1">
+<EventFiltering>
+
+<!--
+
+  _____  _               ______                   _   
+ |  __ \(_)             |  ____|                 | |  
+ | |__) |_  _ __    ___ | |__ __   __ ___  _ __  | |_ 
+ |  ___/| || '_ \  / _ \|  __|\ \ / // _ \| '_ \ | __|
+ | |    | || |_) ||  __/| |____\ V /|  __/| | | || |_ 
+ |_|    |_|| .__/  \___||______|\_/  \___||_| |_| \__|
+           | |                                        
+           |_|                                        
+          
+-->
+
+<!-- common network named pipes https://raw.githubusercontent.com/peterpt/pipe_auditor_fb/master/pipe_audit_v2.rb 
+https://github.com/dzonerzy/winescalation
+-->
+
+    <PipeEvent onmatch="include">
+	  <!-- known bad named pipes - malwares, subject to regular updates -->
+	  <PipeName condition="contains">\msagent_</PipeName> 
+	  <PipeName name="lateral movement - psexec detected">\PSEXESVC</PipeName>
+	  <PipeName condition="contains" name="meterpreter named pipe">msf-pipe </PipeName>
+	  <!-- known legit named pipes, useful for detecting recon and some lateral movement tricks -->	  
+	  <PipeName condition="contains">\atsvc</PipeName> <!-- useful for lm or exec over atsvc namedpipe -->
+	  <PipeName condition="contains">\srvsvc</PipeName> <!-- useful for smb sessions enum detection-->
+	  <PipeName condition="contains">\winreg</PipeName> <!-- useful for lateral movement and users enumeration, psloggedon use thise technique -->
+	  <Image>System</Image> <!-- experimental - support detection of named pipes that are accessible over SMB -->
+    </PipeEvent>
+	<!-- PipeEvent Exclusion Config Section -->
+	<PipeEvent onmatch="exclude">
+	 <Image condition="begin with">c:\windows\system32\</Image>
+	 <Image>C:\WINDOWS\Explorer.EXE</Image>
+	 <Image condition="begin with">c:\windows\syswow64\</Image>
+	 <Image condition="begin with">c:\program files\</Image>
+	 <Image condition="begin with">c:\program files (x86)\</Image>
+	</PipeEvent>
+	
+</EventFiltering>
+</Sysmon>
