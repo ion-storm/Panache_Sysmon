@@ -1,0 +1,36 @@
+<Sysmon schemaversion="4.1">
+<EventFiltering>
+
+<!--
+   _____                    _         _____                          _      _______  _                            _ 
+  / ____|                  | |       |  __ \                        | |    |__   __|| |                          | |
+ | |      _ __  ___   __ _ | |_  ___ | |__) | ___  _ __ ___    ___  | |_  ___ | |   | |__   _ __  ___   __ _   __| |
+ | |     | '__|/ _ \ / _` || __|/ _ \|  _  / / _ \| '_ ` _ \  / _ \ | __|/ _ \| |   | '_ \ | '__|/ _ \ / _` | / _` |
+ | |____ | |  |  __/| (_| || |_|  __/| | \ \|  __/| | | | | || (_) || |_|  __/| |   | | | || |  |  __/| (_| || (_| |
+  \_____||_|   \___| \__,_| \__|\___||_|  \_\\___||_| |_| |_| \___/  \__|\___||_|   |_| |_||_|   \___| \__,_| \__,_|
+                                                                                                                                                                                                                                               
+-->
+
+	<!-- CreateRemoteThread - Exclusion Section, capturing this event is important be careful when excluding stuff  -->
+	
+    <CreateRemoteThread onmatch="exclude">
+	  <SourceImage condition="begin with">C:\Program Files\HP Inc\</SourceImage>
+	  <SourceImage condition="begin with">C:\Program Files (x86)\Trend Micro\</SourceImage>
+      <SourceImage>C:\Windows\System32\wbem\WmiPrvSE.exe</SourceImage>
+	  <SourceImage>C:\Windows\SysWOW64\wbem\WmiPrvSE.exe</SourceImage> 
+      <SourceImage>C:\Windows\System32\svchost.exe</SourceImage>
+      <SourceImage>C:\Windows\System32\services.exe</SourceImage>
+      <SourceImage>C:\Windows\System32\audiodg.exe</SourceImage>
+      <SourceImage>C:\Windows\System32\csrss.exe</SourceImage>
+	  <SourceImage>C:\WINDOWS\Explorer.EXE</SourceImage>
+	  <SourceImage>C:\Program Files\Trend Micro\AMSP\coreServiceShell.exe</SourceImage>
+      <SourceImage>C:\Windows\System32\winlogon.exe</SourceImage>
+      <SourceImage>C:\Windows\System32\wininit.exe</SourceImage>
+      <TargetImage condition="end with">Google\Chrome\Application\chrome.exe</TargetImage>
+      <StartModule>C:\windows\system32\kernel32.dll</StartModule>
+	  <SourceImage>C:\Program Files (x86)\Webroot\WRSA.exe</SourceImage>
+	  <StartFunction>EtwpNotificationThread</StartFunction><!-- observed as FP from -->
+	  <StartFunction>RtlpQueryProcessDebugInformationRemote</StartFunction><!-- observed as a FP from procexp64.exe -->
+    </CreateRemoteThread>
+</EventFiltering>
+</Sysmon>
