@@ -48,6 +48,9 @@
 	  <CommandLine condition="contains">/format:</CommandLine><!-- execution via XSL-->
 	  <CommandLine condition="contains">/node:</CommandLine><!-- remote wmic -->
 	  <CommandLine condition="contains">-urlcache</CommandLine> <!-- certutil download -->
+	  <CommandLine condition="contains">\AppData\Local\Temp\Rar$</CommandLine>
+	  <CommandLine condition="contains">\AppData\Local\Temp\7zO</CommandLine>
+	  <CommandLine condition="contains">\AppData\Local\Temp\wz</CommandLine>
 	  <CommandLine condition="end with" name="Execution - Excel DDE">EXCEL.EXE" /dde</CommandLine><!-- https://app.any.run/tasks/60700042-753e-4f5f-814c-5297d8423cc2/ -->
 	  <CommandLine condition="contains">LaunchINFSection</CommandLine><!-- https://securelist.com/muddywater/88059/ -->
 	  <CommandLine condition="contains">InstallHinfSection</CommandLine> <!-- rundll32.exe setupapi.dll,InstallHinfSection DefaultInstall 128 c:\path to file.inf  -->
@@ -372,10 +375,10 @@
 	  
 	  <!-- Persistence stuff -->
 	  <Image condition="image" name="Persistence or Exec - Services Management">sc.exe</Image>
-	  <ParentCommandLine>c:\windows\system32\svchost.exe -k netsvcs -s BITS</ParentCommandLine> <!-- bitsadmin persistence -->
+	  <ParentCommandLine name="Persistence - BITS Job">c:\windows\system32\svchost.exe -k netsvcs -s BITS</ParentCommandLine> <!-- bitsadmin persistence -->
 	  <Description>Service Control Manager Configuration Tool</Description>
 	  <Image condition="image" name="Persistence - Scheduled Task Management">schtasks.exe</Image>
-	  <Description name="renamed">Task Scheduler Configuration Tool</Description>
+	  <Description>Task Scheduler Configuration Tool</Description>
 	  <Image condition="image" name="Persistence - Scheduled Task Management AT">at.exe</Image><!-- scheduled task -->
 	  <Description name="Persistence or Exec - Services Management">Schedule service command line interface</Description>
 	  <ParentCommandLine name="Persistence - Scheduled Task -Schedule">c:\windows\system32\svchost.exe -k netsvcs -s Schedule</ParentCommandLine><!-- scheduled tasks -->
@@ -383,8 +386,8 @@
 	  <Image name="Persistence or Exec - ActiveScriptConsumer">C:\WINDOWS\system32\wbem\scrcons.exe</Image><!-- WMI ActiveScript Event Consumer persistence -->
 	  <ParentImage name="Persistence or Exec - ActiveScriptConsumer">C:\WINDOWS\system32\wbem\scrcons.exe</ParentImage><!-- WMI ActiveScript Event Consumer persistence -->
 	  <ParentImage condition="image" name="Persistence - Service">services.exe</ParentImage>
-	  <Image condition="image">mofcomp.exe</Image>
-	  <Image condition="image">sdbinst.exe</Image>
+	  <Image condition="image" name="Persistence - WMI MOF">mofcomp.exe</Image>
+	  <Image condition="image" name="Persistence - ShimAppCompat">sdbinst.exe</Image>
     </ProcessCreate>	
 	<!-- ProcessCreate - Exclusion Section -->
 	
@@ -496,6 +499,14 @@
 	  <CommandLine>C:\Windows\system32\svchost.exe -k netsvcs -p -s wuauserv</CommandLine>
 	  <CommandLine>C:\Windows\system32\sc.exe start pushtoinstall registration</CommandLine>
 	  <CommandLine>C:\Windows\System32\svchost.exe -k netsvcs -p -s PushToInstall</CommandLine>
+	  <CommandLine>C:\WINDOWS\System32\svchost.exe -k LocalSystemNetworkRestricted -s WdiSystemHost</CommandLine>
+	  <CommandLine>C:\WINDOWS\System32\svchost.exe -k wsappx -s ClipSVC</CommandLine>
+	  <CommandLine>C:\WINDOWS\System32\svchost.exe -k LocalServiceNetworkRestricted -s lmhosts</CommandLine>
+	  <CommandLine>c:\windows\system32\svchost.exe -k localservicenetworkrestricted -s RmSvc</CommandLine>
+	  <CommandLine>C:\WINDOWS\system32\wbem\wmiprvse.exe -Embedding</CommandLine>
+	  <ParentCommandLine condition="contains">NGenTask.exe" /RuntimeWide /StopEvent</ParentCommandLine>
+	  <ParentCommandLine>C:\WINDOWS\system32\SearchIndexer.exe /Embedding</ParentCommandLine>
+	  <CommandLine>C:\WINDOWS\system32\SearchIndexer.exe /Embedding</CommandLine>
 	  <CommandLine condition="contains">NGenTask.exe" /RuntimeWide /Critical </CommandLine>
 	  <Image>C:\Windows\System32\SgrmBroker.exe</Image>
 	  <Image>C:\Windows\System32\ctfmon.exe</Image>
@@ -511,6 +522,7 @@
 	  <CommandLine>C:\Windows\system32\DeviceDisplayObjectProvider.exe -Embedding</CommandLine><!-- legit child of DCOM svchost -->
 	  <CommandLine>C:\WINDOWS\system32\SppExtComObj.exe -Embedding</CommandLine> <!-- legit child of DCOM svchost -->
 	  <CommandLine>C:\WINDOWS\System32\vdsldr.exe -Embedding</CommandLine> <!-- legit child of DCOM svchost -->
+	  <CommandLine condition="begin with">"C:\ProgramData\Microsoft\Windows Defender\Platform\4.18.1903.4-0\MpCmdRun.exe" -IdleTask -TaskName</CommandLine>
 	  <CommandLine>C:\Windows\system32\compattel\DiagTrackRunner.exe /UploadEtlFilesOnly</CommandLine>
 	  <Image>C:\Windows\System32\slui.exe</Image><!-- legit child or dcomlaunch svchost -->
 	  <CommandLine condition="contains">taskhost.exe SYSTEM</CommandLine>
@@ -588,7 +600,13 @@
 	  <CommandLine condition="contains">/noconfig /fullpaths @"C:\WINDOWS\</CommandLine><!-- csc.exe noisy cmdline -->
       <CommandLine>C:\Windows\system32\svchost.exe -k netsvcs -s SessionEnv</CommandLine>
 	  <ParentCommandLine>c:\windows\system32\svchost.exe -k netsvcs -s TokenBroker</ParentCommandLine>
+	  <CommandLine>c:\windows\system32\svchost.exe -k netsvcs -s TokenBroker</CommandLine>
+	  <ParentImage>C:\Program Files (x86)\Qualys\QualysAgent\QualysAgent.exe</ParentImage>
+	  <Image>C:\Program Files (x86)\Qualys\QualysAgent\QualysAgent.exe</Image>
+	  <CommandLine>C:\WINDOWS\system32\svchost.exe -k GPSvcGroup</CommandLine>
+	  <CommandLine>C:\WINDOWS\system32\msiexec.exe /V</CommandLine>
 	  <CommandLine>C:\WINDOWS\system32\svchost.exe -k wsappx -s AppXSvc</CommandLine>
+	  <CommandLine>C:\Windows\System32\LockAppHost.exe -Embedding</CommandLine>
 	  <Image>C:\Program Files\Windows Media Player\wmpnetwk.exe</Image>
 	  <ParentCommandLine>C:\WINDOWS\system32\svchost.exe -k wsappx -s AppXSvc</ParentCommandLine>
 	  <CommandLine>c:\windows\system32\svchost.exe -k localservicenetworkrestricted -s lmhosts</CommandLine>
