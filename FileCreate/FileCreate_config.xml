@@ -13,6 +13,21 @@
                                                                   
 -->
     <FileCreate onmatch="include">	
+	
+	<!-- Windows sub-directories that are writable by std user privs, can be abused for data staging or execution  
+	Source: @menasec1 - https://docs.google.com/spreadsheets/d/199uLiw7-EWlnlvaO6z4S1GpfNKi6csdm8LPfCha7uqQ/edit#gid=0
+	-->
+	  <TargetFilename condition="begin with">c:\Windows\System32\FxsTmp\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\Windows\Syswow64\FxsTmp\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\Windows\System32\spool\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\Windows\debug\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\Windows\tracing\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\Windows\CCM\Inventory\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\windows\serviceprofiles\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\windows\system32\config\systemprofile\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\Windows\System32\Com\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\Windows\SysWOW64\Com\</TargetFilename>
+	
 	  <!-- default windows services set to start automatically and under SYSTEM user context -->
 	  <TargetFilename condition="begin with" name="PrivEsc - UAC Bypass Mocking Trusted WinFolders">c:\windows \</TargetFilename>
 	  <TargetFilename condition="end with">trustedInstaller.exe</TargetFilename>
@@ -300,6 +315,24 @@
 	  <Image>C:\WINDOWS\system32\cleanmgr.exe</Image>
 	  <Image>C:\Program Files (x86)\Microsoft Office\Office15\SPDESIGN.EXE</Image> <!-- for .xoml file types -->
 	  <Image condition="end with">csc.exe</Image>
+	  <Image condition="end with">WmiApSrv.exe</Image>
+	  <Image condition="end with">WMIADAP.exe</Image>
+	  <Image condition="end with">WmiPrvSE.exe</Image>
+	  <Image condition="end with">TiWorker.exe</Image>
+	  <Image condition="end with">mofcomp.exe</Image>
+	  <Image condition="end with">mstsc.exe</Image>
+	  <Image condition="end with">splwow64.exe</Image>
+	  <Image condition="end with">dllhost.exe</Image>
+	  <Image condition="end with">spoolsv.exe</Image>
+	  <Image condition="end with">printfilterpipelinesvc.exe</Image>
+	  <Image condition="end with">PrintIsolationHost.exe</Image>
+	  <Image condition="end with">msiexec.exe</Image>
+	  <Image condition="end with">poqexec.exe</Image>
+	  <Image condition="end with">CcmExec.exe</Image>
+	  <Image condition="end with">audiodg.exe</Image>
+	  <Image condition="end with">lsass.exe</Image>
+	  <Image condition="end with">WerFault.exe</Image>
+	  <Image condition="end with">ngentask.exe</Image>
 	  <Image>C:\Windows\system32\msdt.exe</Image><!-- noise for .ps1 -->
       <Image>C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeC2RClient.exe</Image>
       <Image condition="begin with">C:\WINDOWS\winsxs\amd64_microsoft-windows</Image>
