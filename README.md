@@ -8,3 +8,6 @@ A Sysmon Config for APTs Detection:
 4. Example of evtx that are a result of testing Panache_Sysmon can be found in the ATT&CK EVTX repository (i.e. already tested against RedCanary Atomic RedTeam automated testing framework) 
 
                                             Let's Go Hunting, Maybe it's your day!
+
+
+![alt text](https://raw.githubusercontent.com/sbousseaden/Panache_Sysmon/master/panache.jpg)
