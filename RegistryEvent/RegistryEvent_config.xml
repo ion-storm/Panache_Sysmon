@@ -1,0 +1,280 @@
+<Sysmon schemaversion="4.1">
+<EventFiltering>
+
+<!--
+
+  _____               _       _                 ______                   _   
+ |  __ \             (_)     | |               |  ____|                 | |  
+ | |__) | ___   __ _  _  ___ | |_  _ __  _   _ | |__ __   __ ___  _ __  | |_ 
+ |  _  / / _ \ / _` || |/ __|| __|| '__|| | | ||  __|\ \ / // _ \| '_ \ | __|
+ | | \ \|  __/| (_| || |\__ \| |_ | |   | |_| || |____\ V /|  __/| | | || |_ 
+ |_|  \_\\___| \__, ||_||___/ \__||_|    \__, ||______|\_/  \___||_| |_| \__|
+                __/ |                     __/ |                              
+               |___/                     |___/                               
+         
+-->
+
+    <RegistryEvent onmatch="include">
+	  <!-- <TargetObject condition="contains">HKLM\software\microsoft\windows nt\currentversion\schedule\taskcache\tasks\</TargetObject> -->
+	  <!-- <TargetObject name="Defense Evasion - Removes Office resiliency keys" condition="contains">RESILIENCY\STARTUPITEMS</TargetObject> -->
+	    <TargetObject condition="contains" name="Persistence - injecting a 64-bit DLL into a 32-bit process">SOFTWARE\Microsoft\Wow64\x86\</TargetObject> <!-- http://www.hexacorn.com/blog/2019/07/11/beyond-good-ol-run-key-part-108-2/ -->
+	    <!-- startup regkeys -->
+	  <TargetObject condition="end with" name="Persistence - Startup User Shell Folder Modified">software\microsoft\windows\currentversion\explorer\user shell folders\startup</TargetObject> <!-- https://app.any.run/tasks/60700042-753e-4f5f-814c-5297d8423cc2/ -->
+	  <!-- RDP Hijack related keys -->
+	  <!-- https://www.fireeye.com/blog/threat-research/2019/01/bypassing-network-restrictions-through-rdp-tunneling.html -->
+	  <TargetObject condition="contains">services\TermService\Parameters\ServiceDll</TargetObject>
+	  <TargetObject condition="contains">\environment</TargetObject><!-- enviornment variables changes -->
+      <TargetObject condition="contains">Control\Terminal Server\fSingleSessionPerUser</TargetObject>
+      <TargetObject condition="end with">fDenyTSConnections</TargetObject>
+      <TargetObject condition="contains">LastLoggedOnUser</TargetObject>
+      <TargetObject condition="contains">RDP-tcp\PortNumber</TargetObject>
+	  <TargetObject condition="contains">Services\PortProxy\v4tov4</TargetObject>
+      <TargetObject condition="contains">SoftWare\SimonTatham\PuTTY</TargetObject>	
+      <TargetObject condition="end with" name="Lateral Movement - New Named Pipe added to NullSession">NullSessionPipes</TargetObject>
+	  <TargetObject condition="contains" name="Lateral Movement - New Named Pipe added to NullSession">NullSessionShares</TargetObject>
+	  <TargetObject condition="contains" name="Persistence - new svchost service">SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost</TargetObject>
+	  <!-- Steals printed documents from spooler queue -->
+	  <TargetObject condition="end with">printers\DefaultSpoolDirectory</TargetObject> <!-- can be abused to redirect spooler queue -->
+	  <TargetObject condition="end with">SpoolDirectory</TargetObject> <!-- can be abused to redirect spooler queue -->
+	  <TargetObject condition="contains">DsSpooler\printKeepPrintedJobs</TargetObject> <!-- https://securelist.com/project-tajmahal/90240/ -->
+      <!-- UAC Bypass related stuff -->
+      <TargetObject condition="contains">Software\Microsoft\Windows\CurrentVersion\App Paths\control.exe</TargetObject>	  
+	  
+	  <!-- Making a system vulnerable -->
+	  <TargetObject condition="end with" name="Defense Evasion - PowerShell ExecPolicy Changed">Microsoft.PowerShell\ExecutionPolicy</TargetObject>
+	  <TargetObject condition="end with" name="Defense Evasion - PowerShell Audit Settings Changed">EnableModuleLogging</TargetObject>
+	  <TargetObject condition="end with" name="Defense Evasion - PowerShell Audit Settings Changed">EnableScriptBlockLogging</TargetObject>
+	  <TargetObject condition="contains" name="Defense Evasion - PowerShell Audit Settings Changed">PowerShell\Transcription</TargetObject>
+      <TargetObject condition="end with" name="Defense Evasion - access to the VBA project object model in the Macro Settings changed">AccessVBOM</TargetObject><!--https://www.stigviewer.com/stig/microsoft_powerpoint_2007/2014-04-03/finding/V-17522 -->
+	  <TargetObject condition="contains" name="Defense Evasion - Changes to ProtectedView Security Setting">Security\ProtectedView</TargetObject>
+	  <TargetObject condition="contains" name="Defense Evasion - Office Trusted Locations changed">Security\Trusted Locations</TargetObject> <!-- can be abused to execute unrestricted vba from specific desired locations -->
+	  <TargetObject condition="end with" name="Defense Evasion - Lsa Protection changed">SYSTEM\CurrentControlSet\Control\Lsa\RunAsPPL</TargetObject>
+	  <TargetObject condition="contains" name="Defense Evasion - Wdigest Enabled">\Control\SecurityProviders\WDigest\UseLogonCredential</TargetObject>
+	  <TargetObject condition="contains" name="Defense Evasion - TaskMgr Disabled">Policies\System\disabletaskmgr</TargetObject>
+	  <TargetObject condition="end with">\TreatAs</TargetObject><!-- CLSID or COM Objects changes, very important to watch it -->
+	  <!-- Office Persistence - https://labs.mwrinfosecurity.com/blog/add-in-opportunities-for-office-persistence/ -->
+	  <TargetObject condition="contains" name="Persistence - Outlook COM Addins">\Outlook\Addins</TargetObject>
+	  <TargetObject condition="contains" name="Persistence - Excel COM Addins">\Excel\Addins</TargetObject>
+	  <TargetObject condition="contains" name="Persistence - Excel Addins">Excel\Options\OPEN</TargetObject>
+	  <TargetObject condition="contains" name="Persistence - Word COM Addins">\Word\Addins</TargetObject>
+	  <TargetObject condition="contains" name="Persistence - Access COM Addins">\Access\Addins\</TargetObject>
+	  <TargetObject condition="contains" name="Persistence - Powerpoint COM Addins">\Powerpoint\Addins\</TargetObject>
+	  <TargetObject condition="contains" name="Persistence - VBE Addins">Software\Microsoft\VBA\VBE\6.0\Addins</TargetObject>
+	  <TargetObject condition="contains" name="Persistence - Office Test RegKey">Software\Microsoft\Office test\Special\Perf</TargetObject><!-- http://www.hexacorn.com/blog/2014/04/16/beyond-good-ol-run-key-part-10/ -->
+	  <TargetObject condition="end with" name="Persistence - Macro Auto Loading enabled on outlook">Outlook\LoadMacroProviderOnBoot</TargetObject>
+	  
+	  <TargetObject condition="contains" name="Persistence via SilentProcessExit hijack">CurrentVersion\SilentProcessExit</TargetObject>
+	  
+      <TargetObject condition="contains">SYSTEM\CurrentControlSet\services\SysmonDrv</TargetObject>
+      <TargetObject condition="end with">\PsService\EulaAccepted</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableBehaviorMonitoring</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\DisableAntiVirus</TargetObject>
+      <TargetObject condition="end with">\PsLoggedOn\EulaAccepted</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Cryptography\Providers\Trust</TargetObject>
+	  <!-- Per-user ASEPs under HKCU\Software -->
+      <TargetObject condition="contains" name="Persistence - COM Hijack">\InprocServer32\</TargetObject> <!-- COM Stuff -->
+	  <TargetObject condition="contains" name="Persistence - Scripting.Dictionary COM Hijack">\ScriptletURL</TargetObject>
+      <TargetObject condition="contains" name="Persistence - via Run key">\CurrentVersion\Run</TargetObject>
+	  <TargetObject condition="contains" name="Persistence - via Windows Load">\Software\Microsoft\Windows NT\CurrentVersion\Windows\Load</TargetObject>
+      <TargetObject condition="end with">\PsInfo\EulaAccepted</TargetObject>
+      <TargetObject condition="contains" name="Persistence - Application Shimming">CurrentVersion\AppCompatFlags\InstalledSDB</TargetObject>
+      <TargetObject condition="contains">\shell\open\ddeexec</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableScanOnRealtimeEnable</TargetObject>
+      <TargetObject condition="end with">\Start</TargetObject>
+      <TargetObject condition="contains">HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\W32Time\TimeProviders</TargetObject>
+      <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Print\Monitors</TargetObject>
+      <TargetObject condition="contains">\ContextMenuHandlers</TargetObject>
+      <TargetObject condition="end with">\PsSuspend\EulaAccepted</TargetObject>
+      <TargetObject condition="contains">SOFTWARE\Microsoft\Netsh</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\DisableMonitoring</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\AllAlertsDisabled</TargetObject>
+      <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp\InitialProgram</TargetObject>
+      <TargetObject condition="contains">ms-settings\shell\open\command</TargetObject>
+      <TargetObject condition="end with">\PsList\EulaAccepted</TargetObject>
+      <TargetObject condition="contains">Classes\exefile\shell\runas\command\isolatedCommand</TargetObject>
+      <TargetObject condition="begin with" name="Defense Evasion - UAC Bypass">HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\EnableLUA</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection\DisableOnAccessProtection</TargetObject>
+      <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\explorer\ShellServiceObjectDelayLoad</TargetObject>
+      <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Winlogon</TargetObject>
+      <TargetObject condition="contains">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom</TargetObject>
+      <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\LocalAccountTokenFilterPolicy</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet\SpyNetReporting</TargetObject>
+      
+      <TargetObject condition="end with">\PsLogList\EulaAccepted</TargetObject>
+      <TargetObject condition="begin with" name="Persistence - WinLogon Notify">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify</TargetObject>
+	  <TargetObject name="Persistance - LogonScript" condition="contains">UserInitMprLogonScript</TargetObject> <!-- https://app.any.run/tasks/a823239c-e99e-4430-ad5f-c34122b8b203/ -->
+      <TargetObject condition="end with" name="Persistence - IFEO Debugger ValueSet">\Debugger</TargetObject>
+      <TargetObject condition="contains">SYSTEM\CurrentControlSet\services\Sysmon</TargetObject>
+      <TargetObject condition="begin with" name="Persistence - AppInit">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\Appinit_Dlls</TargetObject>
+      <TargetObject condition="begin with" name="Defense Evasion - UAC">HKLM\SOFTWARE\Microsoft\Security Center\UacDisableNotify</TargetObject>
+      <TargetObject condition="end with">\FriendlyName</TargetObject>
+      <TargetObject condition="contains">\Browser Helper Objects</TargetObject>
+      <TargetObject condition="end with">\PsKill\EulaAccepted</TargetObject>
+      <TargetObject condition="contains">\Explorer\FileExts</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Provider</TargetObject>
+      <TargetObject condition="end with">\ImagePath</TargetObject>
+      <TargetObject condition="begin with" name="Persistance via bootexecutee smss.exe">HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\BootExecute</TargetObject>
+      <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\StandardProfile\AuthorizedApplications\List</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Drivers32</TargetObject>
+      <TargetObject condition="contains">SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LSASS.exe</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit</TargetObject>
+      <TargetObject condition="contains">\shell\install\command</TargetObject>
+      <TargetObject>HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Setup\ServiceStartup</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Cryptography\OID</TargetObject>
+      <TargetObject condition="contains">\Classes\Directory</TargetObject>
+      <TargetObject condition="contains" name="PrivEsc - UAC bypass">\mscfile\shell\open\command</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths</TargetObject>
+      <TargetObject condition="end with">\PsFile\EulaAccepted</TargetObject>
+      <TargetObject condition="contains">\Policies\Explorer\Run</TargetObject>
+      <TargetObject condition="end with" name="Persistence - Winlogon Shell">CurrentVersion\Winlogon\Shell</TargetObject>
+      <TargetObject condition="end with" name="Persistence - New svchost hosted service">Parameters\ServiceDll</TargetObject>
+      <TargetObject condition="contains">\Windows\System\Scripts</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT</TargetObject>
+      <TargetObject condition="contains">\Classes\Folder</TargetObject>
+      <TargetObject condition="contains">\shell\open\command</TargetObject>
+      <TargetObject>HKLM\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\FirewallDisableNotify</TargetObject>
+      <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Safeboot</TargetObject>
+      <TargetObject condition="end with">\ProxyServer</TargetObject>
+      <TargetObject condition="end with">\PsShutDown\EulaAccepted</TargetObject>
+      <TargetObject condition="contains">\services\Netlogon\Parameters\DisablePasswordChange</TargetObject>
+      <TargetObject condition="contains">{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}</TargetObject>
+      <TargetObject condition="contains">\Internet Explorer\Extensions</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\AntiVirusDisableNotify</TargetObject>
+      <TargetObject condition="end with">\PsGetSID\EulaAccepted</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\GPExtensions</TargetObject>
+      <TargetObject condition="contains">\CurrentVersion\Shell</TargetObject>
+      <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Services\WinSock</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\WOW6432Node\Microsoft\Cryptography\OID</TargetObject>
+      <TargetObject condition="end with">\PsExec\EulaAccepted</TargetObject>
+      <TargetObject>REGISTRY\MACHINE\SYSTEM\ControlSet001\Services\DNS\Parameters\ServerLevelPluginDll</TargetObject>
+      <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows\CurrentVersion\explorer\ShellExecuteHooks</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Cryptography\Providers\Trust</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\DisableAntiSpyware</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender</TargetObject>
+      <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\SecurityProviders</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\FirewallOverride</TargetObject>
+      <TargetObject>HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options</TargetObject>
+      <TargetObject condition="contains">SYSTEM\CurrentControlSet\Control\CrashControl</TargetObject>
+      <TargetObject>HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\InProgress\(Default)</TargetObject>
+      <TargetObject condition="end with">\PsPasswd\EulaAccepted</TargetObject>
+      <TargetObject condition="contains">\Classes\Drive</TargetObject>
+      <TargetObject condition="begin with" name="Persistence - AuthPackages">HKLM\SYSTEM\CurrentControlSet\Control\Lsa\Authentication</TargetObject>
+	  <TargetObject condition="end with" name="Persistence or CredAccess - Lsa NotificationPackge">Control\Lsa\Notification Packages</TargetObject> <!-- persistence lsaprovider - multi sz -->
+	  <TargetObject condition="end with">Control\SecurityProviders\SecurityProviders</TargetObject> <!-- persistence lsaprovider - multi sz -->
+	  <TargetObject condition="end with">Control\Lsa\Authentication Packages</TargetObject> <!-- persistence lsaprovider - multi sz-->
+	  
+      <TargetObject condition="end with">\UrlUpdateInfo</TargetObject>
+      <TargetObject condition="contains">\Classes\AllFilesystemObjects</TargetObject>
+      <TargetObject condition="contains">Software\Classes\CLSID</TargetObject>
+	
+	  <TargetObject condition="end with" name="Persistence - First Time Seen Shell Extension">\CurrentVersion\Shell Extensions\Cached</TargetObject><!-- focus on the ones under HKCU not HKLM or HKEY_CLASSES_ROOT -->
+	  
+	  <!-- 
+	  good resource - https://github.com/the80srobot/t8r-volatility/blob/master/persistence.py 
+	  https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/5a00963153450a8779b23489/1509987890282/Windows
+	  https://www.carbonblack.com/cbfeeds/earlyaccess_feed.xhtml
+	  -->
+	  
+      <TargetObject condition="contains">\Group Policy\Scripts</TargetObject>
+      <TargetObject condition="begin with">HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\AppCertDlls</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Security Center\UpdatesDisableNotify</TargetObject>
+      <TargetObject condition="begin with">HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows NT\CurrentVersion\Windows\Appinit_Dlls</TargetObject>
+    </RegistryEvent>
+	
+	<!-- RegistryEvent - Exclusion Section -->
+	
+    <RegistryEvent onmatch="exclude">
+	  <EventType condition="is">CreateKey</EventType>
+	  <!-- <EventType condition="is">DeleteKey</EventType> -->
+	  <Image>C:\WINDOWS\Sysmon.exe</Image>
+	  <Image>C:\WINDOWS\Sysmon64.exe</Image>
+	  <Image condition="image">TiWorker.exe</Image>
+	  <Image>C:\Windows\System32\smss.exe</Image>
+	  <Image condition="begin with">C:\Program Files (x86)\Trend Micro\</Image>
+	  <Image condition="begin with">C:\Program Files\Trend Micro\</Image>
+      <Image>C:\Windows\SystemApps\Microsoft.Windows.Cortana_cw5n1h2txyewy\SearchUI.exe</Image>
+      <Image condition="end with">Office\root\integration\integrator.exe</Image>
+      <Image>C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeClickToRun.exe</Image>
+      <Image condition="image">C:\WINDOWS\system32\backgroundTaskHost.exe</Image>
+      <Image>C:\Program Files\WIDCOMM\Bluetooth Software\btwdins.exe</Image>
+      <Image>C:\Program Files (x86)\Webroot\WRSA.exe</Image>
+      <Image>C:\Program Files\Windows Defender\MsMpEng.exe</Image>
+	  <Image>C:\WINDOWS\system32\LogonUI.exe</Image>
+	  <Image>C:\Program Files\Microsoft Office\root\Office16\lync.exe</Image>
+	  <Image>C:\WINDOWS\CCM\CcmExec.exe</Image>
+	  <Image condition="end with">AppData\Local\Microsoft\OneDrive\OneDrive.exe</Image>
+	  <Image condition="end with">AppData\Local\Microsoft\Teams\current\Teams.exe</Image>
+	  <Image condition="end with">Procmon.exe</Image>
+	  <Image condition="end with">Proexp64.exe</Image>
+	  <Image condition="end with">Autoruns.exe</Image>
+	  <Image>C:\Windows\System32\unregmp2.exe</Image>
+      <Image condition="begin with">C:\$WINDOWS.~BT\</Image>
+	  <TargetObject>HKLM\System\CurrentControlSet\Control\CrashControl\CrashDumpEnabled</TargetObject>
+	  <TargetObject>HKLM\SOFTWARE\Policies\Microsoft\Windows\NetworkConnectivityAssistant\FriendlyName</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\exclusions\processes\%windir%\System32\</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\exclusions\paths\C:\Program Files\</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\exclusions\processes\%ProgramFiles%\</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\exclusions\processes\%ProgramFiles(x86)%</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\NewDeploymentOperation</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\exclusions\processes\%windir%\CCM\</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\exclusions\paths\%windir%\SoftwareDistribution</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\exclusions\paths\%windir%\Security\</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\signature updates\</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\legalnoticecaption</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\legalnoticetext</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\maxdevicepasswordfailedattempts</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\exclusions\processes\%ProgramFiles</TargetObject>
+	  <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppReadiness</TargetObject>
+	  <TargetObject condition="contains">Software\Microsoft\Windows\CurrentVersion\AppModel\PackageRepository</TargetObject>
+      <TargetObject condition="end with">\services\BITS\Start</TargetObject>
+	  <TargetObject condition="end with">DateLastConnected</TargetObject>
+      <TargetObject condition="end with">\services\clr_optimization_v4.0.30319_64\Start</TargetObject>
+      <TargetObject condition="end with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\Audit</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Installer\UserData\S-1-5-18\</TargetObject>
+      <TargetObject condition="end with">HKLM\SYSTEM\CurrentControlSet\Services\UsoSvc\Start</TargetObject>
+      <TargetObject condition="end with">\Components\TrustedInstaller\Events</TargetObject>
+      <TargetObject condition="end with">HKLM\SYSTEM\CurrentControlSet\Control\Lsa\SspiCache</TargetObject>
+      <TargetObject condition="contains">\OpenWithProgids</TargetObject>
+      <TargetObject condition="end with">HKLM\SYSTEM\CurrentControlSet\Control\Lsa\Audit\PerUserAuditing\System</TargetObject>
+      <TargetObject condition="end with">\services\clr_optimization_v4.0.30319_32\Start</TargetObject>
+      <TargetObject condition="end with">\Directory\shellex\DragDropHandlers</TargetObject>
+      <TargetObject condition="end with">\services\TrustedInstaller\Start</TargetObject>
+      <TargetObject condition="end with">\OpenWithList\MRUList</TargetObject>
+      <TargetObject condition="end with">HKLM\SYSTEM\CurrentControlSet\Control\Lsa\Kerberos\Domains</TargetObject>
+      <TargetObject condition="end with">\OpenWithList</TargetObject>
+      <TargetObject condition="end with">\Directory\shellex</TargetObject>
+      <TargetObject condition="end with">\services\clr_optimization_v2.0.50727_64\Start</TargetObject>
+      <TargetObject condition="contains">_Classes\AppX</TargetObject>
+      <TargetObject condition="end with">\services\UsoSvc\Start</TargetObject>
+      <TargetObject condition="end with">\UserChoice\Hash</TargetObject>
+      <TargetObject condition="end with">\services\tunnel\Start</TargetObject>
+      <TargetObject condition="end with">Toolbar\WebBrowser\ITBar7Height</TargetObject>
+      <TargetObject condition="end with">\Components\Wlansvc</TargetObject>
+      <TargetObject condition="end with">\CurrentVersion\Image File Execution Options</TargetObject>
+      <TargetObject condition="end with">\services\clr_optimization_v2.0.50727_32\Start</TargetObject>
+      <TargetObject condition="end with">HKLM\SYSTEM\CurrentControlSet\Control\Lsa\Audit\AuditPolicy</TargetObject>
+      <TargetObject condition="end with">\services\DeviceAssociationService\Start</TargetObject>
+      <TargetObject condition="begin with">HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WINEVT\Publishers\</TargetObject>
+      <TargetObject condition="end with">Internet Explorer\Toolbar\Locked</TargetObject>
+      <TargetObject condition="end with">ShellBrowser</TargetObject>
+      <TargetObject condition="end with">Toolbar\ShellBrowser\ITBar7Layout</TargetObject>
+      <TargetObject condition="end with">\Lsa\OfflineJoin\CurrentValue</TargetObject>
+      <TargetObject condition="end with">Toolbar\WebBrowser</TargetObject>
+      <TargetObject condition="end with">}\PreviousPolicyAreas</TargetObject>
+      <TargetObject condition="end with">\UserChoice\ProgId</TargetObject>
+      <TargetObject condition="contains">\Control\WMI\Autologger\</TargetObject>
+      <TargetObject condition="end with">\Drive\shellex\DragDropHandlers</TargetObject>
+      <TargetObject condition="end with">\Drive\shellex</TargetObject>
+      <TargetObject condition="end with">HKLM\SYSTEM\CurrentControlSet\Control\Lsa\Audit</TargetObject>
+      <TargetObject condition="end with">\CurrentVersion\App Paths</TargetObject>
+      <TargetObject condition="end with">\Components\TrustedInstaller</TargetObject>
+      <TargetObject condition="end with">} 0xFFFF</TargetObject>
+      <TargetObject condition="end with">\Components\Wlansvc\Events</TargetObject>
+      <TargetObject condition="end with">\UserChoice</TargetObject>
+    </RegistryEvent>
+</EventFiltering>
+</Sysmon>
