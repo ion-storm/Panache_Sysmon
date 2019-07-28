@@ -234,6 +234,10 @@
 	  <ImageLoaded>C:\Windows\System32\winmm.dll</ImageLoaded>
 	  <ImageLoaded>C:\Windows\System32\duser.dll</ImageLoaded>
 	  <ImageLoaded>C:\Windows\Syswow64\duser.dll</ImageLoaded>
+	  <ImageLoaded>C:\Windows\System32\uxtheme.dll</ImageLoaded>
+	  <ImageLoaded>C:\Windows\Syswow64\uxtheme.dll</ImageLoaded>
+	  <ImageLoaded>C:\Windows\System32\dbghelp.dll</ImageLoaded>
+	  <ImageLoaded>C:\Windows\Syswow64\dbghelp.dll</ImageLoaded>
 	  <ImageLoaded>C:\Windows\System32\Dism\LogProvider.dll</ImageLoaded>
 	  <ImageLoaded>C:\Program Files\Windows Defender\MpClient.dll</ImageLoaded>
 	  <Signature>Opera Software AS</Signature>
