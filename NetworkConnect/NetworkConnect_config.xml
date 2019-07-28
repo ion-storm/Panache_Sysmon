@@ -1,0 +1,213 @@
+<Sysmon schemaversion="4.1">
+<EventFiltering>
+  
+<!--
+  _____                                     _____                    _        
+ |  __ \                                   / ____|                  | |       
+ | |__) |_ __  ___    ___  ___  ___  ___  | |      _ __  ___   __ _ | |_  ___ 
+ |  ___/| '__|/ _ \  / __|/ _ \/ __|/ __| | |     | '__|/ _ \ / _` || __|/ _ \
+ | |    | |  | (_) || (__|  __/\__ \\__ \ | |____ | |  |  __/| (_| || |_|  __/
+ |_|    |_|   \___/  \___|\___||___/|___/  \_____||_|   \___| \__,_| \__|\___|
+                                                                              
+                                                                              
+
+-->
+
+<!--
+
+  _   _        _                          _      _____                                  _   
+ | \ | |      | |                        | |    / ____|                                | |  
+ |  \| |  ___ | |_ __      __ ___   _ __ | | __| |      ___   _ __   _ __    ___   ___ | |_ 
+ | . ` | / _ \| __|\ \ /\ / // _ \ | '__|| |/ /| |     / _ \ | '_ \ | '_ \  / _ \ / __|| __|
+ | |\  ||  __/| |_  \ V  V /| (_) || |   |   < | |____| (_) || | | || | | ||  __/| (__ | |_ 
+ |_| \_| \___| \__|  \_/\_/  \___/ |_|   |_|\_\ \_____|\___/ |_| |_||_| |_| \___| \___| \__|
+                                                                                            
+                                                                                            
+
+-->
+    <NetworkConnect onmatch="include">
+      <!-- NetworkConnect - LOLBIN -->
+      <Image condition="image" name="Suspicious NetCon">wscript.exe</Image>
+	  <Image condition="image" name="Suspicious NetCon">cscript.exe</Image>
+	  <Image condition="image" name="Suspicious NetCon">explorer.exe</Image> 
+      <Image condition="image">vnc.exe</Image>
+      <Image condition="image">dsquery.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">notepad.exe</Image>
+	  <Image>rdpclip.exe</Image>
+      <Image condition="image">SyncAppvPublishingServer.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">certutil.exe</Image>
+	  <Image condition="image" name="Suspicious NetCon">wmic.exe</Image>
+      <Image condition="image">nbtstat.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">bitsadmin.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">msiexec.exe</Image>
+      <Image condition="image">infDefaultInstall.exe</Image>
+      <Image condition="image">winexesvc.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">sc.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">Mavinject.exe</Image>
+      <Image condition="image">omniinet.exe</Image>
+      <Image condition="image">hpsmhd.exe</Image>
+	  <Image condition="image">hh.exe</Image>
+      <Image condition="image">javaws.exe</Image>
+      <Image condition="image">reg.exe</Image>
+      <Image condition="image">net.exe</Image>
+	  <Image condition="image">net1.exe</Image>
+      <Image condition="image">vncservice.exe</Image>
+      <Image condition="image">schtasks.exe</Image>
+	  <Image condition="image">mstsc.exe</Image><!-- Remote Desktop -->
+      <Image condition="image">qprocess.exe</Image>
+      <Image condition="image">rwinsta.exe</Image>
+      <Image condition="image">nslookup.exe</Image>
+      <Image condition="image">mmc.exe</Image>
+      <Image condition="image">tasklist.exe</Image>
+      <Image condition="image">net1.exe</Image>
+      <Image condition="image">cscript.exe</Image>
+      <Image condition="image">qwinsta.exe</Image>
+      <Image condition="image">psexesvc.exe</Image>
+      <Image condition="image">at.exe</Image>
+      <Image condition="image">replace.exe</Image>
+      <Image condition="image">tor.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">powershell.exe</Image>
+      <Image condition="image">psexec.exe</Image>
+      <Image condition="image">rundll32.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">regsvcs.exe</Image>
+      <Image condition="image">driverquery.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">mshta.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">msbuild.exe</Image>
+      <Image condition="image">vncviewer.exe</Image>
+      <Image condition="image">cmd.exe</Image>
+      <Image condition="image">javaw.exe</Image>
+      <Image condition="image" name="Suspicious NetCon">regsvr32.exe</Image>
+      <Image condition="image">taskkill.exe</Image>
+      <Image condition="image">hh.exe</Image>
+	  <Image condition="image">schtasks.exe</Image>
+	  <Image condition="image" name="Suspicious NetCon">installutil.exe</Image>
+	  
+	  <Image>C:\Windows\System32\inetsrv\w3wp.exe</Image><!-- noisy for 8080 -->
+	  <Image>C:\Windows\SysWOW64\inetsrv\w3wp.exe</Image>
+      <!-- NetworkConnect - Suspicious Paths -->
+      <Image condition="begin with">C:\Windows\Media\</Image>
+      <Image condition="begin with">C:\Windows\addins\</Image>
+	  <Image condition="begin with">C:\Windows\system32\config\systemprofile\</Image>
+	  <Image condition="begin with">C:\Windows\Debug\</Image> 
+	  <Image condition="begin with">C:\Windows\Temp</Image>
+      <Image condition="begin with">C:\PerfLogs\</Image>
+	  <Image condition="begin with">C:\Windows\Help\</Image>
+	  <Image condition="begin with">C:\Intel\Logs\</Image>
+	  <Image condition="begin with">C:\Temp</Image>
+      <Image condition="begin with">C:\Windows\repair\</Image>
+	  <Image condition="begin with">C:\ProgramData</Image>
+      <Image condition="begin with">C:\Windows\security\</Image>
+      <Image condition="begin with">C:\Windows\Fonts\</Image>
+      <Image condition="contains">\wwwroot\</Image>
+	  <Image condition="contains">\htdocs\</Image>
+	  <Image condition="begin with">C:\$Recycle.bin\</Image>
+	  <Image condition="contains">\Windows\IME\</Image>
+	  <Image condition="contains">unknown process</Image>
+      <!-- NetworkConnect - Known Port Numbers that are relevant for some lateral movement and traffic tunneling techniques -->
+      <DestinationPort>5986</DestinationPort><!-- PS remoting, WinRM HTTPS -->
+	  <DestinationPort>5985</DestinationPort><!-- PS remoting, WinRM HTTP -->
+	  <DestinationPort>445</DestinationPort> <!-- smb -->
+	  <SourcePort>445</SourcePort> <!-- smb -->
+	  <DestinationPort>139</DestinationPort> <!-- nbns -->
+	  <DestinationPort>389</DestinationPort> <!-- ldap -->
+	  <DestinationPort>636</DestinationPort> <!-- ldaps -->
+	  <DestinationPort>3268</DestinationPort> <!-- msft-gc -->
+	  <DestinationPort>3269</DestinationPort> <!-- msft-gc -->
+	  <DestinationPort>53</DestinationPort> <!-- dns exfilt, dns.exe noisy -->
+	  <DestinationPort>5353</DestinationPort> <!-- dns exfilt -->
+	  <DestinationPort>464</DestinationPort> <!-- keberos passwords changes -->
+	  <!--<DestinationPort>80</DestinationPort>
+	  <DestinationPort>443</DestinationPort>
+	  <DestinationPort>8443</DestinationPort> too noisy ports enable them if u wish so -->
+	  <DestinationPort condition="is">135</DestinationPort> <!-- rcp -->
+	  <DestinationPort condition="is">20</DestinationPort> <!--FTP data-->
+	  <DestinationPort condition="is">21</DestinationPort> <!--FTP control-->
+	  <DestinationPort condition="is">990</DestinationPort> <!--FTPS-->
+	  <DestinationPort condition="is">22</DestinationPort> <!--SSH -->
+	  <DestinationPort condition="is">23</DestinationPort> <!--Telnet-->
+	  <DestinationPort condition="is">25</DestinationPort> <!--SMTP -->
+	  <DestinationPort condition="is">142</DestinationPort> <!--IMAP-->
+	  <DestinationPort condition="is">3389</DestinationPort> <!--RDP-->
+	  <SourcePort condition="is">3389</SourcePort><!--RDP-->
+	  <SourcePort condition="is">67</SourcePort><!-- dhcp server side- detect rogue dhcp server  -->
+	  <SourcePort condition="is">547</SourcePort><!-- dhcp ipv6 server side - detect rogue dhcp server -->
+	  <DestinationPort condition="is">5800</DestinationPort> <!--VNC -->
+	  <DestinationPort condition="is">5900</DestinationPort> <!--VNC -->
+	  <!--Ports: Proxy-->
+	  <DestinationPort condition="is">1080</DestinationPort> <!--Socks proxy port | Credit @ion-storm-->
+	  <DestinationPort condition="is">3128</DestinationPort> <!--Socks proxy port - noisy with lsass.exe | Credit @ion-storm-->
+	  <DestinationPort condition="is">8080</DestinationPort> <!--Socks proxy port | Credit @ion-storm-->
+	  <!--Ports: Tor-->
+	  <DestinationPort condition="is">1723</DestinationPort> <!--Tor protocol-->
+	  <DestinationPort condition="is">4500</DestinationPort> <!--Tor protocol-->
+	  <DestinationPort condition="is">9001</DestinationPort> <!--Tor protocol-->
+	  <DestinationPort condition="is">9030</DestinationPort> <!--Tor protocol-->
+	  <!-- for some of the known bad port numbers see https://github.com/Neo23x0/sigma/blob/master/rules/windows/sysmon/sysmon_malware_backconnect_ports.yml -->
+	  <!-- some of the many domain Malware uses to get external IP address, better look at your dns logs or traffic-->
+	  <DestinationHostname>api.ipify.org</DestinationHostname> 
+	  <DestinationHostname>whatismyipaddress.com</DestinationHostname>
+	  <DestinationHostname>edns.ip-api.com</DestinationHostname> 
+	  <DestinationHostname>checkip.dyndns.org</DestinationHostname>
+	  <DestinationHostname>icanhazip.com</DestinationHostname>
+	  <DestinationHostname>ifconfig.me</DestinationHostname>
+	  <DestinationHostname>ifconfig.co</DestinationHostname>
+	  <DestinationHostname>ipaddress.com</DestinationHostname> 
+	  <DestinationHostname>ipinfo.io</DestinationHostname>
+	  <DestinationHostname>ident.me</DestinationHostname>
+	  <DestinationHostname>api.ip.sb</DestinationHostname> <!--Malware uses to get external IP address-->
+	  <DestinationHostname>www.myexternalip.com</DestinationHostname> <!--Malware uses to get external IP address-->
+	  <DestinationHostname>ip.anysrc.net</DestinationHostname> <!--Malware uses to get external IP address-->
+	  <DestinationHostname>wtfismyip.com</DestinationHostname> <!--Malware uses to get external IP address-->
+	  <DestinationHostname>myexternalip.com</DestinationHostname> <!--Malware uses to get external IP address-->
+	  <DestinationHostname>api.ip.sb</DestinationHostname> <!--Malware uses to get external IP address-->
+	  <DestinationHostname>ipecho.net</DestinationHostname> <!--Malware uses to get external IP address-->
+	  <DestinationHostname>checkip.amazonaws.com</DestinationHostname>
+	  <DestinationHostname>ip-api.com</DestinationHostname>
+    </NetworkConnect>
+	
+<!-- NetworkConnect - Exclusion Section - depend on your own env exclude noisy processes paths and users-->
+
+    <NetworkConnect onmatch="exclude">
+	  <Image>C:\Windows\System32\dns.exe</Image><!-- noisy for dns -->
+	  <Image>C:\Windows\System32\svchost.exe</Image><!-- noisy for dns and ldap -->
+	  <Image>C:\Windows\System32\lsass.exe</Image><!-- noisy for ldap -->
+	  <Image>C:\Windows\System32\dfsrs.exe</Image><!-- noisy for ldap -->
+	  <Image>C:\Windows\System32\taskhost.exe</Image><!-- noisy for ldap -->
+	  <Image>C:\Windows\System32\wbem\WmiPrvSE.exe</Image><!-- noisy for ldap -->
+	  <Image>C:\Windows\System32\wbem\WmiApSrv.exe</Image><!-- noisy for ldap -->
+	  <Image>C:\Windows\System32\taskhostw.exe</Image><!-- noisy for ldap -->
+	  <Image>C:\Windows\CCM\CcmExec.exe</Image>
+	  <Image>C:\Windows\ADWS\Microsoft.ActiveDirectory.WebServices.exe</Image><!-- noisy for ldap -->
+	  <Image>C:\Program Files (x86)\BigFix Enterprise\BES Client\BESClient.exe</Image><!-- noisy for ldap -->
+	  <Image>C:\Program Files (x86)\Google\Chrome\Application\chrome.exe</Image><!-- noisy for 5353 MDNS -->
+	  <Image>C:\Windows\System32\dfssvc.exe</Image><!-- noisy for ldap -->
+	  <Image>C:\Windows\System32\dsregcmd.exe</Image><!-- noisy for ldap -->
+	  <Image>C:\Program Files\Oracle\VirtualBox\VirtualBoxVM.exe</Image>
+	  <Image>C:\Windows\System32\certsrv.exe</Image>
+	  <Image>C:\Program Files (x86)\Trend Micro\Control Manager\ReportServer.exe</Image>
+	  <Image>C:\Program Files (x86)\Citrix\XenCenter\XenCenterMain.exe</Image>
+	  <Image>C:\Program Files (x86)\Cisco\Cisco AnyConnect Secure Mobility Client\vpnagent.exe</Image>
+	  <Image>C:\Program Files (x86)\BigFix Enterprise\BES Server\BESRootServer.exe</Image>
+	  <Image>C:\Program Files (x86)\Trend Micro\Control Manager\CmdProcessor.exe</Image>
+	  <Image>D:\Program Files (x86)\Symantec\LiveUpdate Administrator\pgsql\bin\postgres.exe</Image>
+	  <User>NT AUTHORITY\NETWORK SERVICE</User>
+	  <User>NT AUTHORITY\LOCAL SERVICE</User>
+	  <DestinationIsIpv6 condition="is">true</DestinationIsIpv6> 	  
+      <Image condition="end with">OneDriveStandaloneUpdater.exe</Image>
+	  <Image condition="end with">iexplore.exe</Image>
+	  <Image condition="end with">firefox.exe</Image>
+	  <Image condition="end with">MicrosoftEdgeCP.exe</Image>
+	  <Image condition="end with">MicrosoftEdge.exe</Image>
+	  <Image condition="end with">GoogleCrashHandler.exe</Image>
+	  <Image condition="end with">Spotify.exe</Image>
+	  <Image condition="end with">java.exe</Image><!-- noise signal depend on ur env -->
+	  <Image condition="end with">AppData\Roaming\Dropbox\bin\Dropbox.exe</Image>
+	  <Image condition="end with">AppData\Local\Microsoft\Teams\current\Teams.exe</Image>
+	  <Image condition="begin with">C:\Program Files\HP Inc\</Image>
+	  <Image condition="begin with">C:\Program Files (x86)\Trend Micro\</Image>
+	  <Image condition="begin with">C:\Program Files\Trend Micro\</Image>
+	  <Image condition="begin with">C:\Program Files\Microsoft Office\root\</Image>
+	  <Image condition="begin with">C:\Program Files (x86)\Symantec\Symantec Endpoint Protection\</Image>
+    </NetworkConnect>
+</EventFiltering>
+</Sysmon>
