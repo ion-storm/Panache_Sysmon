@@ -1,6 +1,6 @@
 # Panache_Sysmon
 
-Just another sysmon config:
+A Sysmon Config for APTs Detection:
 
 1. Sysmon schemaversion "4.1"
 2. Main_Template.xml contains configuration of the less noisy sysmon event categories (i.e. WMI EventSubscription) and can be merged with any of the other event specific configuration files (i.e. Merge Main_Template.xml with ProcessCreate_config.xm to monitor process creation only).
