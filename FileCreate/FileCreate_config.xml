@@ -1,0 +1,339 @@
+<Sysmon schemaversion="4.1">
+<EventFiltering>
+
+
+<!--
+  ______  _  _         _____                    _        
+ |  ____|(_)| |       / ____|                  | |       
+ | |__    _ | |  ___ | |      _ __  ___   __ _ | |_  ___ 
+ |  __|  | || | / _ \| |     | '__|/ _ \ / _` || __|/ _ \
+ | |     | || ||  __/| |____ | |  |  __/| (_| || |_|  __/
+ |_|     |_||_| \___| \_____||_|   \___| \__,_| \__|\___|
+                                                         
+                                                                  
+-->
+    <FileCreate onmatch="include">	
+	  <!-- default windows services set to start automatically and under SYSTEM user context -->
+	  <TargetFilename condition="begin with" name="PrivEsc - UAC Bypass Mocking Trusted WinFolders">c:\windows \</TargetFilename>
+	  <TargetFilename condition="end with">trustedInstaller.exe</TargetFilename>
+	  <TargetFilename condition="end with">SDXHelper.exe</TargetFilename>
+	  <Image condition="image">hh.exe</Image>
+	  <TargetFilename condition="end with">dsagent.exe</TargetFilename>
+	  <TargetFilename condition="end with">wsqmcons.exe</TargetFilename>
+	  <TargetFilename condition="end with">diagtrackrunner.exe</TargetFilename>
+	  <TargetFilename condition="end with">DPMRA.exe</TargetFilename> <!-- Microsoft Data Protection Manager -->
+	  <TargetFilename condition="end with">ceipdata.exe</TargetFilename>
+	  <TargetFilename condition="end with">ServerManagerLauncher.exe</TargetFilename>
+	  <TargetFilename condition="end with">msiexec.exe</TargetFilename> <!-- unlikely for stability reasons, default related service cmdline is msiexe /v -->
+	  <TargetFilename condition="end with">VSSVC.exe</TargetFilename> <!-- unlikely for stability reason -->
+	  <TargetFilename condition="end with">OfficeClickToRun.exe</TargetFilename>
+	  <TargetFilename condition="end with">wlms.exe</TargetFilename>
+	  <TargetFilename condition="end with">spoolsv.exe</TargetFilename> <!-- unlikely for stability reasons -->
+	  <TargetFilename condition="end with">ibtsiva.exe</TargetFilename><!-- Intel -->
+	  <TargetFilename condition="end with">fpcsevtsvc.exe</TargetFilename>
+	  <TargetFilename condition="end with">vds.exe</TargetFilename>
+	  <TargetFilename condition="end with">ceiprole.exe</TargetFilename>
+	  <TargetFilename condition="end with">vdsldr.exe</TargetFilename>
+	  <TargetFilename condition="end with">TSTheme.exe</TargetFilename>
+	  <TargetFilename condition="end with">printfilterpipelinesvc.exe</TargetFilename>
+	  <TargetFilename condition="end with">GoogleUpdate.exe</TargetFilename>
+	  <TargetFilename condition="end with">dosvc.dll</TargetFilename>
+	  <TargetFilename condition="end with">wuauserv.dll</TargetFilename>
+	  <TargetFilename condition="end with">WebClient.dll</TargetFilename>
+	  <TargetFilename condition="end with">wbiosrvc.dll</TargetFilename>
+	  <TargetFilename condition="end with">wpnservice.dll</TargetFilename>
+	  <TargetFilename condition="end with">wwansvc.dll</TargetFilename>
+	  <TargetFilename condition="end with">themeservice.dll</TargetFilename>
+	  <TargetFilename condition="end with">sysmain.dll</TargetFilename>
+	  <TargetFilename condition="end with">wiaservc.dll</TargetFilename>
+	  <TargetFilename condition="end with">certprop.dll</TargetFilename>
+	  <TargetFilename condition="end with">tileobjserver.dll</TargetFilename>
+	  <TargetFilename condition="end with">pcasvc.dll</TargetFilename>
+	  <TargetFilename condition="end with">regsrvc.exe</TargetFilename><!-- Intel -->
+	  
+	  <!-- default windows scheduled tasks binaries replacement -->
+	  
+	  
+	  <TargetFilename condition="end with">.au3</TargetFilename> <!-- autoit script -->
+	  
+	  
+      <Image>C:\WINDOWS\system32\wbem\scrcons.exe</Image><!-- wmi acttivescripteventconsumer persist -->
+      <TargetFilename condition="end with">.dmp</TargetFilename><!-- memory dump --> 
+	  <TargetFilename condition="contains">AppData\Local\Microsoft\CLR_v2.0\UsageLogs\</TargetFilename><!-- temp -->
+	  <TargetFilename condition="end with" name="Execution - Susp ManagedCode Host Process">\UsageLogs\cscript.exe.log</TargetFilename> <!-- suspicious NET executions -->
+	  <TargetFilename condition="end with" name="Execution - Susp ManagedCode Host Process">\UsageLogs\wmic.exe.log</TargetFilename> <!-- suspicious NET executions -->
+	  <TargetFilename condition="end with" name="Execution - Susp ManagedCode Host Process">\UsageLogs\mshta.exe.log</TargetFilename> <!-- suspicious NET executions -->
+	  <TargetFilename condition="end with" name="Execution - Susp ManagedCode Host Process">\UsageLogs\svchost.exe.log</TargetFilename> <!-- suspicious NET executions -->
+	  <TargetFilename condition="end with" name="Execution - Susp ManagedCode Host Process">\regsvr32.exe.log</TargetFilename> <!-- suspicious NET executions -->
+	  <TargetFilename condition="end with" name="Execution - Susp ManagedCode Host Process">\UsageLogs\rundll32.exe.log</TargetFilename> <!-- suspicious NET executions -->
+	  <TargetFilename condition="end with">.mof</TargetFilename> <!-- wmi persistence -->
+	  <TargetFilename condition="end with">.xsl</TargetFilename> <!-- XML Script -->
+	  <TargetFilename condition="end with">wscript.exe</TargetFilename><!-- UAC Bypass via rogue manifest -->
+	  <TargetFilename condition="end with">.manifest</TargetFilename> <!-- UAC Bypass via custom manifest targeting vulnerable trusted programs -->
+	  <TargetFilename condition="end with" name="Discovery - BloodHound Detected">bloodhound.bin</TargetFilename> <!-- by default bloodhound drops this file to disk if not disabled by cmdline -->
+	  <TargetFilename condition="end with">.url</TargetFilename>
+	  <TargetFilename condition="end with">.dll</TargetFilename> <!-- DLLs -->
+	  <TargetFilename condition="end with">.msi</TargetFilename> <!-- msi pkg -->
+	  <TargetFilename condition="end with">.au3</TargetFilename> <!-- autoit script -->
+	  <TargetFilename condition="end with">.wcx</TargetFilename> <!-- total commander plugin -->
+	  <TargetFilename condition="end with">.sdb</TargetFilename> <!-- persist or hijack exec flow via appcompat shim database -->
+	  <TargetFilename condition="end with">.wbk</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.wiz</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.dot</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xbap</TargetFilename> <!-- used by presentationhost.exe to bypass AppWhitelisting -->
+	  <TargetFilename condition="end with">.rtf</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xlsm</TargetFilename> <!-- hello i have some macro -->
+	  <TargetFilename condition="end with">.iqy</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.slk</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with" name="Excel VBA AddIn">.xla</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with" name="Excel VBA AddIn">.xlam</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with" name="PowerPoint VBA AddIn">.ppa</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with" name="PowerPoint VBA AddIn">.ppam</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with" name="Persistence - Outlook VBA Backdoor">VBAProject.OTM</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xld</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xlk</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xll</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xlm</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xlsb</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xlt</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xlt</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xlw</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.dotx</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.potx</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.sldx</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xltx</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.xlw</TargetFilename> <!-- office less famous extensions -->
+	  <TargetFilename condition="end with">.vcs</TargetFilename> <!-- outlook file -->
+	  <TargetFilename condition="end with">.pst</TargetFilename> <!-- outlook file -->
+	  <TargetFilename condition="end with">.ost</TargetFilename> <!-- outlook file -->
+	  <TargetFilename condition="end with">.ics</TargetFilename> <!-- outlook file -->
+	  <TargetFilename condition="end with">.oab</TargetFilename> <!-- outlook file -->
+	  <TargetFilename condition="end with">.nst</TargetFilename> <!-- outlook file -->
+	  <TargetFilename condition="end with">.msg</TargetFilename> <!-- outlook file -->
+      <TargetFilename condition="end with">.vbe</TargetFilename>
+      <TargetFilename condition="end with">.vb</TargetFilename>
+	  <TargetFilename condition="end with">.csproj</TargetFilename> <!-- https://github.com/infosecn1nja/MaliciousMacroMSBuild -->
+	  <TargetFilename condition="end with">.bin</TargetFilename>
+	  <TargetFilename condition="end with" name="Chrome extension file detected">.crx</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\Tasks\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\windows\system32\tasks\</TargetFilename>
+      <TargetFilename condition="end with">.ps1</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\Wbem</TargetFilename>
+      <TargetFilename condition="end with">.wll</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\AppPatch\Custom</TargetFilename>
+	  <TargetFilename condition="begin with">c:\windows\AppPatch64\Custom</TargetFilename>
+	  <TargetFilename condition="end with">.jar</TargetFilename>
+      <TargetFilename condition="begin with">C:\Users\Default</TargetFilename>
+      <TargetFilename condition="end with">.docm</TargetFilename>
+      <TargetFilename condition="end with">.vbs</TargetFilename>
+      <TargetFilename condition="end with">.pyw</TargetFilename>
+	  <TargetFilename condition="end with">.pyd</TargetFilename>
+	  <TargetFilename condition="end with">.pyc</TargetFilename>
+	  <TargetFilename condition="end with">.xoml</TargetFilename> <!-- used by by Microsoft.Workflow.Compiler.exe -->
+	  <!-- common compressed files -->
+	  <TargetFilename condition="end with">.cab</TargetFilename>
+	  <TargetFilename condition="end with">.rar</TargetFilename>
+	  <TargetFilename condition="end with">.zip</TargetFilename>
+	  <TargetFilename condition="end with">.7z</TargetFilename>
+	  
+      <TargetFilename condition="contains">\Downloads\</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\GroupPolicy\User\Scripts</TargetFilename>
+      <TargetFilename condition="end with">.hta</TargetFilename>
+      <TargetFilename condition="end with">.lnk</TargetFilename>
+      <TargetFilename condition="end with">.appref-ms</TargetFilename>
+      <TargetFilename condition="end with">.scf</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\GroupPolicy\Machine\Scripts</TargetFilename>
+      <TargetFilename condition="end with">.cmd</TargetFilename>
+      <TargetFilename condition="end with">.pptm</TargetFilename>
+      <TargetFilename condition="end with">.sln</TargetFilename>
+      <TargetFilename condition="contains" name="Persistence - via Startup">Start Menu\Programs\Startup\</TargetFilename>
+      <TargetFilename condition="end with">.ps2</TargetFilename>
+      <TargetFilename condition="end with">.exe</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\WindowsPowerShell</TargetFilename>
+      <TargetFilename condition="contains">\Content.Outlook\</TargetFilename>
+      <TargetFilename condition="end with">.bat</TargetFilename>
+	  
+	  <!-- relevant for web servers
+        https://www.secureworks.com/research/threat-group-3390-targets-organizations-for-cyberespionage
+		https://www.rsaconference.com/writable/presentations/file_upload/hta-f02-detecting-and-responding-to-advanced-threats-within-exchange-environments.pdf
+		https://github.com/tennc/webshell/blob/master/net-friend/aspx/aspxspy.aspx
+	  -->
+	  <TargetFilename condition="end with">.jsp</TargetFilename> 
+	  <TargetFilename condition="end with">.jspx</TargetFilename> 
+	  <TargetFilename condition="end with">.asp</TargetFilename> 
+	  <TargetFilename condition="end with">.aspx</TargetFilename> 
+	  <TargetFilename condition="end with">.php</TargetFilename> 
+	  <TargetFilename condition="end with">.war</TargetFilename>
+	  <TargetFilename condition="contains">Exchange Server\ClientAccess\Owa\</TargetFilename> <!-- webshell stuff on exchange CAS -->
+	  <TargetFilename condition="contains">\inetpub\wwwroot\</TargetFilename> <!-- webshell stuff -->
+	  
+      <TargetFilename condition="begin with">C:\Windows\SysWOW64\Drivers</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\SysWOW64\WindowsPowerShell</TargetFilename>
+      <TargetFilename condition="contains">\Start Menu</TargetFilename>
+	  <TargetFilename condition="contains" name="persistence - office templates trusted location">AppData\Roaming\Microsoft\Templates</TargetFilename>
+	  <TargetFilename condition="end with" name="persistence - backdoored default docm template">Templates\Normal.dotm</TargetFilename>
+	  <TargetFilename condition="end with" name="persistence - backdoored outlook template">NormalEmail.dotm</TargetFilename>
+	  <TargetFilename condition="end with" name="persistence - backdoored excel default macro template">XLSTART\PERSONAL.XLSB</TargetFilename>
+	  <TargetFilename condition="contains" name="persistence - Word Library Add-Ins">Roaming\Microsoft\Word\Startup\</TargetFilename>
+	  <TargetFilename condition="contains" name="persistence - Excel VBA Add-Ins">Roaming\Microsoft\Excel\XLSTART\</TargetFilename>
+	  <TargetFilename condition="contains" name="persistence - Powerpoint and Excel VBA Add-Ins Trusted Location">Roaming\Microsoft\AddIns</TargetFilename>
+      <TargetFilename condition="end with">.sys</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\Drivers</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\SysWOW64\Wbem</TargetFilename>
+      <TargetFilename condition="end with">.*proj</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\Tasks</TargetFilename>
+	  <!-- known bad file names -->
+	  <TargetFilename condition="end with">rdpwrap.dll</TargetFilename><!-- -->
+	  <TargetFilename condition="end with">BootStrapDLL.dll</TargetFilename><!-- KeeFarce.exe default injected DLL name-->
+	  <!-- add Tymur slides content and add https://github.com/Neo23x0/sigma/blob/master/rules/windows/sysmon/sysmon_powershell_exploit_scripts.yml for ps -->
+	  
+      <!-- side loading -->
+	    <TargetFilename condition="end with" name="Execution - DllSide Loading">winspool.drv</TargetFilename> <!-- loaded by avz.exe free AV -->
+	  <TargetFilename condition="end with" name="Execution - DllSide Loading">ssMUIDLL.dll</TargetFilename> <!-- op cell phone - https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers -->
+	  <TargetFilename condition="end with" name="Execution - DllSide Loading">credwiz.exe</TargetFilename> <!-- side loading with legit credwiz.exe https://app.any.run/tasks/3fcfd265-ef80-4749-a24b-39364a079802 -->
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">NvSmartMaxapp.dll</TargetFilename> <!--DLL side loading: https://quequero.org/2013/09/quick-analysissome-observation-about-a-low-detection-flash_update-exe/ -->
+	  <TargetFilename condition="end with" name="Execution - DllSide Loading">NvSmartMax.dll</TargetFilename>
+	  <TargetFilename condition="end with" name="Execution - DllSide Loading">mcvsmap.exe</TargetFilename>
+	  <TargetFilename condition="end with" name="Execution - DllSide Loading">jli.dll</TargetFilename> <!-- APT10 use jjs.exe for dll side loading jli.dll https://blog.ensilo.com/uncovering-new-activity-by-apt10 -->
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">AShld.exe</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">AShldRes.DLL</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">CamMute.exe</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">CommFunc.dll</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">CommFunc.jax</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">chrome_frame_helper.exe</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">chrome_frame_helper.dll</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">chrome_frame_helper.dll.rom</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">dvcemumanager.exe</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">DESqmWrapper.dll</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">DESqmWrapper.wrapper</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">fsguidll.exe</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">fslapi.dll</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">fslapi.dll.gui</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">fsstm.exe</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">FSPMAPI.dll</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">FSPMAPI.dll.fsp</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">Gadget.exe</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">Sidebar.dll</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">Sidebar.dll.doc</TargetFilename>
+      <TargetFilename condition="end with">hhc.exe</TargetFilename>
+      <TargetFilename condition="end with">hha.dll</TargetFilename>
+      <TargetFilename condition="end with">hha.dll.bak</TargetFilename>
+      <TargetFilename condition="end with">hkcmd.exe</TargetFilename>
+      <TargetFilename condition="end with">hccutils.dll</TargetFilename>
+      <TargetFilename condition="end with">hccutils.dll.res</TargetFilename>
+      <TargetFilename condition="end with">LoLTWLauncher.exe</TargetFilename>
+      <TargetFilename condition="end with">NtUserEx.dll</TargetFilename>
+      <TargetFilename condition="end with">NtUserEx.dat</TargetFilename>
+      <TargetFilename condition="end with">Mc.exe</TargetFilename>
+      <TargetFilename condition="end with">McUtil.dll</TargetFilename>
+      <TargetFilename condition="end with">McUtil.dll.url</TargetFilename>
+      <TargetFilename condition="end with">mcf.exe</TargetFilename>
+      <TargetFilename condition="end with">mcf.ep</TargetFilename>
+      <TargetFilename condition="end with">mcupdui.exe</TargetFilename>
+      <TargetFilename condition="end with">McUtil.dll.ping</TargetFilename>
+      <TargetFilename condition="end with">mcut.exe</TargetFilename>
+      <TargetFilename condition="end with">mcutil.dll.bbc</TargetFilename>
+      <TargetFilename condition="end with">MsMpEng.exe</TargetFilename>
+      <TargetFilename condition="end with">MpSvc.dll</TargetFilename>
+      <TargetFilename condition="end with">msseces.exe</TargetFilename>
+      <TargetFilename condition="end with">mPclient.dll</TargetFilename>
+      <TargetFilename condition="end with">msseces.asm</TargetFilename>
+      <TargetFilename condition="end with">NvSmart.exe</TargetFilename>
+      <TargetFilename condition="end with">NvSmartMax.dll</TargetFilename>
+      <TargetFilename condition="end with">boot.ldr</TargetFilename>
+      <TargetFilename condition="end with">OInfoP11.exe</TargetFilename>
+      <TargetFilename condition="end with">OInfo11.ocx</TargetFilename>
+      <TargetFilename condition="end with">OInfo11.ISO</TargetFilename>
+      <TargetFilename condition="end with">OleView.exe</TargetFilename>
+      <TargetFilename condition="end with">ACLUI.DLL</TargetFilename>
+      <TargetFilename condition="end with">ACLUI.DLL.UI</TargetFilename>
+      <TargetFilename condition="end with">OleView.exe</TargetFilename>
+      <TargetFilename condition="end with">iviewers.dll</TargetFilename>
+      <TargetFilename condition="end with">POETWLauncher.exe</TargetFilename>
+      <TargetFilename condition="end with">NtUserEx.dll</TargetFilename>
+      <TargetFilename condition="end with">NtUserEx.dat</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">RasTls.exe</TargetFilename>
+      <TargetFilename condition="end with" name="Execution - DllSide Loading">RasTls.dll</TargetFilename>
+      <TargetFilename condition="end with">RasTls.dll.msc</TargetFilename>
+      <TargetFilename condition="end with">RasTls.dll.config</TargetFilename><!-- https://www.hybrid-analysis.com/sample/0fb0636a2823e8fb63681b6bf9d1dd910c7a1e3ed27d19fda1db11dda8e578f8?environmentId=100 -->
+      <TargetFilename condition="end with">rc.exe</TargetFilename>
+      <TargetFilename condition="end with">rc.dll</TargetFilename>
+      <TargetFilename condition="end with">rc.hlp</TargetFilename>
+      <TargetFilename condition="end with">RunHelp.exe</TargetFilename>
+      <TargetFilename condition="end with">sep_NE.exe</TargetFilename>
+      <TargetFilename condition="end with">winmm.dll</TargetFilename>
+      <TargetFilename condition="end with">sep_NE.slf</TargetFilename>
+      <TargetFilename condition="end with">msi.dll</TargetFilename>
+      <TargetFilename condition="end with">msi.dll.dat</TargetFilename>
+      <TargetFilename condition="end with">tplcdclr.exe</TargetFilename>
+      <TargetFilename condition="end with">wts.chm</TargetFilename>
+      <TargetFilename condition="end with">Ushata.exe</TargetFilename>
+      <TargetFilename condition="end with">Ushata.dll</TargetFilename>
+      <TargetFilename condition="end with">Ushata.fox</TargetFilename>
+      <TargetFilename condition="end with">VeetlePlayer.exe</TargetFilename>
+      <TargetFilename condition="end with">libvlc.dll</TargetFilename>
+      <TargetFilename condition="end with">mtcReport.ktc</TargetFilename>
+      <TargetFilename condition="end with">AFLogVw.exe</TargetFilename>
+      <TargetFilename condition="end with">AhnI2.dll</TargetFilename>
+	  <!-- finfisher employed dll side loading https://www.microsoft.com/security/blog/2018/03/01/finfisher-exposed-a-researchers-tale-of-defeating-traps-tricks-and-complex-virtual-machines/-->
+	  <TargetFilename condition="end with">aepic.dll</TargetFilename>
+	  <TargetFilename condition="end with">ftllib.dll</TargetFilename>
+	  <TargetFilename condition="end with">userenv.dll</TargetFilename>
+	  
+	  <!-- chrome extension -->
+	  <TargetFilename condition="contains" name="New Chrome Extension Detected">Google\Chrome\User Data\Default\Extensions</TargetFilename>
+	  <TargetFilename condition="begin with" name="Persistence - PowerShell default profile">c:\Windows\Syswow64\WindowsPowerShell\v1.0\profile</TargetFilename>
+	  <TargetFilename condition="begin with" name="Persistence - PowerShell default profile">c:\Windows\System32\WindowsPowerShell\v1.0\profile</TargetFilename>
+	  <!-- warning just for test purposes -->
+	  <!--<TargetFilename condition="begin with">c:\windows\system32\</TargetFilename>
+	  <TargetFilename condition="begin with">c:\windows\syswow64\</TargetFilename>-->
+    </FileCreate>
+	
+	<!-- FileCreate - Exclusion Section -->
+    <FileCreate onmatch="exclude">
+	  <Image>C:\ProgramData\Microsoft\Windows Defender\platform\4.18.1906.3-0\MsMpEng.exe</Image>
+	  <Image condition="end with">Services\Microsoft.VisualStudio.Setup.Service\BackgroundDownload.exe</Image>
+	  <Image condition="begin with">C:\Program Files\HP Inc\</Image>
+	  <Image condition="begin with">C:\Program Files (x86)\Trend Micro\</Image>
+	  <Image>C:\Windows\System32\poqexec.exe</Image>
+	  <Image>C:\Windows\system32\taskhostw.exe</Image> <!-- FPs for PowerShell Files -->
+	  <Image>C:\WINDOWS\system32\cleanmgr.exe</Image>
+	  <Image>C:\Program Files (x86)\Microsoft Office\Office15\SPDESIGN.EXE</Image> <!-- for .xoml file types -->
+	  <Image condition="end with">csc.exe</Image>
+	  <Image>C:\Windows\system32\msdt.exe</Image><!-- noise for .ps1 -->
+      <Image>C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeC2RClient.exe</Image>
+      <Image condition="begin with">C:\WINDOWS\winsxs\amd64_microsoft-windows</Image>
+      <Image>C:\Program Files (x86)\Dell\CommandUpdate\InvColPC.exe</Image>
+      <Image>C:\Windows\system32\igfxCUIService.exe</Image>
+      <Image>C:\Windows\system32\CompatTelRunner.exe</Image>
+      <Image>C:\Windows\System32\smss.exe</Image>
+      <Image>C:\Windows\system32\wbem\WMIADAP.EXE</Image>
+	  <Image>C:\WINDOWS\system32\TokenBrokerCookies.exe</Image>
+	  <TargetFilename condition="contains">PSScriptPolicyTest</TargetFilename>
+	  <TargetFilename condition="end with">Roaming\Microsoft\Windows\Start Menu\Programs\Startup\desktop.ini</TargetFilename>
+	  <TargetFilename condition="begin with">C:\Windows\assembly\NativeImages</TargetFilename><!-- noisy for .dll extension -->
+	  <TargetFilename condition="contains">AppData\Local\Microsoft\Windows\Temporary Internet Files\Content.IE</TargetFilename> <!-- noisy for web extensions like .aspx -->
+	  <TargetFilename condition="begin with">C:\Windows\ServiceProfiles\NetworkService\AppData\Local\Temp\</TargetFilename> <!-- noisy for .dll extensions -->
+	  <TargetFilename condition="contains">AppData\Local\Microsoft\Outlook</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\wbem\Performance\</TargetFilename>
+	  <TargetFilename condition="end with">StartupProfileData-NonInteractive</TargetFilename>
+	  <TargetFilename>C:\Windows\Tasks\SA.DAT</TargetFilename> <!-- False Positive -->
+	  <TargetFilename condition="begin with">C:\Windows\System32\wdi\</TargetFilename>
+	  <TargetFilename condition="end with">.png</TargetFilename>
+	  <TargetFilename condition="end with">.jpg</TargetFilename>
+	  <TargetFilename condition="contains">AppData\Roaming\Microsoft\Office\Recent</TargetFilename>
+	  <TargetFilename condition="contains">AppData\Roaming\Microsoft\Windows\Recent</TargetFilename>
+	  <TargetFilename condition="begin with">C:\Windows\CcmTemp\</TargetFilename>
+	  <TargetFilename condition="begin with">C:\Windows\CCM\</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\Tasks\Microsoft\Windows\SoftwareProtectionPlatform\SvcRestartTask</TargetFilename>
+      <TargetFilename condition="end with">WRITABLE.TST</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\DriverStore\Temp\</TargetFilename>
+	  <TargetFilename condition="begin with"> C:\Windows\SoftwareDistribution\</TargetFilename> <!-- noisy for .cab extension -->
+	  <TargetFilename>C:\Windows\System32\Tasks\Microsoft\Windows Defender\MP Scheduled Scan</TargetFilename>
+      <TargetFilename condition="begin with">C:\$WINDOWS.~BT\Sources\SafeOS\SafeOS.Mount\</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\Tasks\Microsoft\Windows\PLA\FabricTraces</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\Tasks\Microsoft\Windows\Customer Experience Improvement Program\Server\ServerRoleUsageCollector</TargetFilename>
+      <TargetFilename condition="begin with">C:\Windows\System32\Tasks\Microsoft\Windows\Customer Experience Improvement Program\Server\ServerCeipAssistant</TargetFilename>
+    </FileCreate>
+</EventFiltering>
+</Sysmon>
