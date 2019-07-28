@@ -5,4 +5,4 @@ Just another sysmon config:
 3. Panache config covers more than 150 different attack techniques and also logs important and must o have events that can be processed at the SIEM end.
 4. Example of evtx that are a result of testing Panache_Sysmon can be found in the ATT&CK EVTX repository.
 
-## Happy Hunting
+                                                  ## Happy Hunting
