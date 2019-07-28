@@ -1,4 +1,4 @@
-# Panache_Sysmon
+# Threat Hunting with Panache_Sysmon Config
 
 A Sysmon Config for APTs Detection:
 
