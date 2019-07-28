@@ -1,7 +1,5 @@
 # Threat Hunting with Panache_Sysmon Config
 
-A Sysmon Config for APTs Detection:
-
 0. Named Panache (see refreshing photo below) cuz it's a mix of a lot of APT reports, tested hacking tools, analyzed malwares, blog posts and MITRE ATT&CK framework.  
 1. Sysmon schemaversion "4.1"
 2. Main_Template.xml contains configuration of the less noisy sysmon event categories (i.e. WMI EventSubscription) and can be merged with any of the other event specific configuration files (i.e. Merge Main_Template.xml with ProcessCreate_config.xm to monitor process creation only).
