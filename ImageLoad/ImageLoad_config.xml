@@ -16,104 +16,131 @@
     <ImageLoad onmatch="include">
 	  <Image>c:\Windows\System32\taskhostw.exe</Image> <!-- persistence - backdoor existing system scheduled taskschd pay attention to unsigned or loaded module with invalid signature -->
 	  <ImageLoaded condition="begin with" name="PrivEsc - UACBypass Mocking Trusted WinFolders">C:\Windows \</ImageLoaded>
+	  <ImageLoaded condition="begin with" name="PrivEsc - UACBypass Mocking Trusted WinFolders">C:\ Windows</ImageLoaded>
 	  <ImageLoaded condition="end with" name="Execution - Suspicious WMI module load">wmiutils.dll</ImageLoaded>
 	  <ImageLoaded condition="end with">scrobj.dll</ImageLoaded>
 	  <ImageLoaded condition="end with" name="Execution - Suspicious Microsoft.XMLDOM module load">msxml3.dll</ImageLoaded>
-	  <ImageLoaded condition="end with" name="Execution - Suspicious Schedule.Service Module Load">taskschd.dll</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Persistence - Suspicious Schedule.Service Module Load">taskschd.dll</ImageLoaded>
 	  <!-- known bad dll names -->
-	  <ImageLoaded condition="end with">rdpwrap.dll</ImageLoaded> <!-- RDP Setting hijack - https://github.com/stascorp/rdpwrap -->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - RDP Config Hijacked">rdpwrap.dll</ImageLoaded> <!-- RDP Setting hijack - https://github.com/stascorp/rdpwrap -->
 	  <ImageLoaded condition="end with" name="Possible UAC Bypass - DiskCleanup">logprovider.dll</ImageLoaded> <!-- Win10 UAC Bypass via DiskCleanup loading a rogue DISM DLL -->
 	  <ImageLoaded condition="end with" name="Possible UAC Bypass - mcx2prov DLL">CRYPTBASE.dll</ImageLoaded> <!-- UAC Bypass via mcx2prov executable and rogue CRYPTBASE.dll-->
+	  
 	  <!-- Invalid signatures -->
-	  <SignatureStatus condition="is" name="dll with invalid signature detected">Invalid</SignatureStatus>
+	  <SignatureStatus condition="is" name="Defense Evasion - Module with invalid signature detected">Invalid</SignatureStatus>
+	  
 	  <!-- abnormal loaded module file extension -->
-	  <ImageLoaded condition="end with">.png</ImageLoaded>
-	  <ImageLoaded condition="end with">.jpg</ImageLoaded>
-	  <ImageLoaded condition="end with">.dat</ImageLoaded>
-	  <ImageLoaded condition="end with">.tmp</ImageLoaded>
-	  <ImageLoaded condition="end with">.inf</ImageLoaded>
-	  <ImageLoaded condition="end with">.ini</ImageLoaded>
-	  <ImageLoaded condition="end with">.log</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Defense Evasion - Unusual Module Extension">.png</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Defense Evasion - Unusual Module Extension">.jpg</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Defense Evasion - Unusual Module Extension">.dat</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Defense Evasion - Unusual Module Extension">.tmp</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Defense Evasion - Unusual Module Extension">.inf</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Defense Evasion - Unusual Module Extension">.ini</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Defense Evasion - Unusual Module Extension">.log</ImageLoaded>
+	  
 	  <!-- Office Addins -->
-	  <ImageLoaded condition="end with">.wll</ImageLoaded>
-	  <ImageLoaded condition="end with">.xll</ImageLoaded>
+	  
+	  <ImageLoaded condition="end with" name="Persistence - Winword Library Addin Loaded">.wll</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Persistence - Excel Library Addin Loaded">.xll</ImageLoaded>
+	  
 	  <!-- Unmanaged PowerShell -->
+	  
 	  <ImageLoaded condition="end with" name="Defense Evasion - Unmanaged PowerShell Detected">system.management.automation.ni.dll</ImageLoaded>
 	  <ImageLoaded condition="end with" name="Defense Evasion - Unmanaged PowerShell Detected">system.management.automation.dll</ImageLoaded>
 	  
 	  <!-- Module loaded from uncommon location -->
-	  <ImageLoaded condition="begin with">\\</ImageLoaded><!-- loaded from network file share -->
-	  <ImageLoaded condition="contains">admin$</ImageLoaded><!-- loaded from network file share -->
-	  <ImageLoaded condition="contains">c$</ImageLoaded><!-- loaded from network file share -->
-	  <ImageLoaded condition="contains">\appdata\</ImageLoaded>
-	  <ImageLoaded condition="contains">\temp\</ImageLoaded>
-	  <ImageLoaded condition="begin with">c:\programdata\</ImageLoaded>
-	  <ImageLoaded condition="begin with">C:\Windows\Media\</ImageLoaded>
-      <ImageLoaded condition="begin with">C:\Windows\addins\</ImageLoaded>
-	  <ImageLoaded condition="begin with">C:\Windows\system32\config\systemprofile\</ImageLoaded>
-	  <ImageLoaded condition="begin with">C:\Windows\Debug\</ImageLoaded> 
-	  <ImageLoaded condition="begin with">C:\Windows\Temp</ImageLoaded>
-      <ImageLoaded condition="begin with">C:\PerfLogs\</ImageLoaded>
-	  <ImageLoaded condition="begin with">C:\Windows\Help\</ImageLoaded>
-	  <ImageLoaded condition="begin with">C:\Intel\Logs\</ImageLoaded>
-	  <ImageLoaded condition="begin with">C:\Temp</ImageLoaded>
-      <ImageLoaded condition="begin with">C:\Windows\repair\</ImageLoaded>
-      <ImageLoaded condition="begin with">C:\Windows\security\</ImageLoaded>
-      <ImageLoaded condition="begin with">C:\Windows\Fonts\</ImageLoaded>
-	  <ImageLoaded condition="begin with">file:</ImageLoaded>
-	  <ImageLoaded condition="contains">$Recycle.bin\</ImageLoaded>
-	  <ImageLoaded condition="contains">\Windows\IME\</ImageLoaded>	  
 	  
-	  <!-- DLL Side Loading - Bring Your Own Vulnerability - http://www.hexacorn.com/blog/2016/0/page/31/-->
-	    <ImageLoaded condition="end with">winspool.drv</ImageLoaded><!-- loaded by avz.exe free AV https://www.welivesecurity.com/2019/07/11/buhtrap-zero-day-espionage-campaigns/ -->
-	  <ImageLoaded condition="end with">WptsExtensions.dll</ImageLoaded> <!-- https://remoteawesomethoughts.blogspot.com/2019/05/windows-10-task-schedulerservice.html -->
-	  <ImageLoaded condition="end with">NvSmartMax.dll</ImageLoaded> <!--https://quequero.org/2013/09/quick-analysissome-observation-about-a-low-detection-flash_update-exe/ -->
-	  <ImageLoaded condition="end with">Duser.dll</ImageLoaded> <!-- https://app.any.run/tasks/3fcfd265-ef80-4749-a24b-39364a079802 loaded by credwiz.exe -->
-      <ImageLoaded condition="end with">AShldRes.DLL</ImageLoaded>
-      <ImageLoaded condition="end with">CommFunc.dll</ImageLoaded>
-      <ImageLoaded condition="end with">chrome_frame_helper.dll</ImageLoaded>
-      <ImageLoaded condition="end with">DESqmWrapper.dll</ImageLoaded>
-      <ImageLoaded condition="end with">fslapi.dll</ImageLoaded>
-      <ImageLoaded condition="end with">FSPMAPI.dll</ImageLoaded>
-      <ImageLoaded condition="end with">Sidebar.dll</ImageLoaded>
-      <ImageLoaded condition="end with">hha.dll</ImageLoaded>
-      <ImageLoaded condition="end with">hccutils.dll</ImageLoaded>
-      <ImageLoaded condition="end with">NtUserEx.dll</ImageLoaded>
-      <ImageLoaded condition="end with">McUtil.dll</ImageLoaded>
-      <ImageLoaded condition="end with">MpSvc.dll</ImageLoaded>
-      <ImageLoaded condition="end with">mPclient.dll</ImageLoaded>
-      <ImageLoaded condition="end with">NvSmartMax.dll</ImageLoaded>
-      <ImageLoaded condition="end with">OInfo11.ocx</ImageLoaded>
-      <ImageLoaded condition="end with">ACLUI.DLL</ImageLoaded>
-      <ImageLoaded condition="end with">iviewers.dll</ImageLoaded>
-      <ImageLoaded condition="end with">NtUserEx.dll</ImageLoaded>
-      <ImageLoaded condition="end with">RasTls.dll</ImageLoaded>
+	  <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">\\</ImageLoaded><!-- loaded from network file share -->
+	  <ImageLoaded condition="contains" name="Execution - Image Loaded from suspicious path">admin$</ImageLoaded><!-- loaded from network file share -->
+	  <ImageLoaded condition="contains" name="Execution - Image Loaded from suspicious path">c$</ImageLoaded><!-- loaded from network file share -->
+	  <ImageLoaded condition="contains" name="Execution - Image Loaded from suspicious path">\appdata\</ImageLoaded>
+	  <ImageLoaded condition="contains" name="Execution - Image Loaded from suspicious path">\temp\</ImageLoaded>
+	  <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">c:\programdata\</ImageLoaded>
+	  <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Windows\Media\</ImageLoaded>
+      <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Windows\addins\</ImageLoaded>
+	  <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Windows\system32\config\systemprofile\</ImageLoaded>
+	  <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Windows\Debug\</ImageLoaded> 
+	  <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Windows\Temp</ImageLoaded>
+      <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\PerfLogs\</ImageLoaded>
+	  <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Windows\Help\</ImageLoaded>
+	  <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Intel\Logs\</ImageLoaded>
+	  <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Temp</ImageLoaded>
+      <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Windows\repair\</ImageLoaded>
+      <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Windows\security\</ImageLoaded>
+      <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">C:\Windows\Fonts\</ImageLoaded>
+	  <ImageLoaded condition="begin with" name="Execution - Image Loaded from suspicious path">file:</ImageLoaded>
+	  <ImageLoaded condition="contains" name="Execution - Image Loaded from suspicious path">$Recycle.bin\</ImageLoaded>
+	  <ImageLoaded condition="contains" name="Execution - Image Loaded from suspicious path">\Windows\IME\</ImageLoaded>	  
+	  
+	  <!-- DLL Side Loading - Bring Your Own Vulnerability -->
+	  <!-- Good refs:  
+	  http://www.hexacorn.com/blog/2016/0/page/31/
+	  https://threatrecon.nshc.net/2019/07/25/growth-of-sectorf01-groups-cyber-espionage-activities/ 
+	  -->
+	  <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">wwlib.dll</ImageLoaded> <!-- winword.exe -->
+	  <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">BIB.dll</ImageLoaded> <!-- Adobe A3DUtility.exe -->
+	  <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">goopdate.dll</ImageLoaded> <!-- vuln GoogleUpdate.exe version-->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">msfte.dll</ImageLoaded> <!-- searchindexer.exe and searchprotocolhost.exe -->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">Flash Video Extension.dll</ImageLoaded> <!-- Adobe AcroTranscoder.exe -->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">UxTheme.dll</ImageLoaded> <!-- Adobe FlashPlayerApp.exe -->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">WeChatWin.dll</ImageLoaded> <!-- WeChat.exe -->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">coccocpdate.dll</ImageLoaded> <!-- CocCocUpdate.exe -->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">chrome_elf.dll</ImageLoaded> <!-- 360se.exe -->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">dbghelp.dll</ImageLoaded> <!-- 360 SoftManager.exe -->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">FaultRep.dll</ImageLoaded> <!-- FontsSet.exe -->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">McVsoCfg.dll</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">product_info.dll</ImageLoaded> <!-- Kasper avpla.exe -->
+	  <ImageLoaded condition="end with" name="Edfense Evasion - DLL Side Loading">wsc.dll</ImageLoaded> <!-- Avast wsc_proxy.exe -->
+	  <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">winspool.drv</ImageLoaded><!-- loaded by avz.exe free AV https://www.welivesecurity.com/2019/07/11/buhtrap-zero-day-espionage-campaigns/ -->
+	  <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">WptsExtensions.dll</ImageLoaded> <!-- https://remoteawesomethoughts.blogspot.com/2019/05/windows-10-task-schedulerservice.html -->
+	  <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">NvSmartMax.dll</ImageLoaded> <!--https://quequero.org/2013/09/quick-analysissome-observation-about-a-low-detection-flash_update-exe/ -->
+	  <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">Duser.dll</ImageLoaded> <!-- https://app.any.run/tasks/3fcfd265-ef80-4749-a24b-39364a079802 loaded by credwiz.exe -->
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">AShldRes.DLL</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">CommFunc.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">chrome_frame_helper.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">DESqmWrapper.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">fslapi.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">FSPMAPI.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">Sidebar.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">hha.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">hccutils.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">NtUserEx.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">McUtil.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">MpSvc.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">mPclient.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">NvSmartMax.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">OInfo11.ocx</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">ACLUI.DLL</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">iviewers.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">NtUserEx.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">RasTls.dll</ImageLoaded>
       <!-- https://www.hybrid-analysis.com/sample/0fb0636a2823e8fb63681b6bf9d1dd910c7a1e3ed27d19fda1db11dda8e578f8?environmentId=100 -->
-      <ImageLoaded condition="end with">rc.dll</ImageLoaded>
-      <ImageLoaded condition="end with">ssMUIDLL.dll</ImageLoaded>
-      <ImageLoaded condition="end with">winmm.dll</ImageLoaded>
-      <ImageLoaded condition="end with">msi.dll</ImageLoaded>
-      <ImageLoaded condition="end with">Ushata.dll</ImageLoaded>
-      <ImageLoaded condition="end with">libvlc.dll</ImageLoaded>
-      <ImageLoaded condition="end with">AhnI2.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">rc.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">ssMUIDLL.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">winmm.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">msi.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">Ushata.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">libvlc.dll</ImageLoaded>
+      <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">AhnI2.dll</ImageLoaded>
 	  <ImageLoaded condition="end with" name="Evasion - Possible DLL Side Loading via jjs.exe">jli.dll</ImageLoaded>
 	  <!-- https://www.microsoft.com/security/blog/2018/03/01/finfisher-exposed-a-researchers-tale-of-defeating-traps-tricks-and-complex-virtual-machines/ -->
-	  <ImageLoaded condition="end with">sspisrv.dll</ImageLoaded>
-	  <ImageLoaded condition="end with">ftllib.dll</ImageLoaded>
-	  <ImageLoaded condition="end with">userenv.dll</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">sspisrv.dll</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">ftllib.dll</ImageLoaded>
+	  <ImageLoaded condition="end with" name="Defense Evasion - DLL Side Loading">userenv.dll</ImageLoaded>
     </ImageLoad>
 	
 	<!-- ImageLoad Exclusion config-section - always depend on ur own env, good luck with that -->
     <ImageLoad onmatch="exclude">
 	  <!-- <SignatureStatus>Valid</SignatureStatus> --> <!-- good for a better visibility on unsigned modules loading -->
 	  <Image>C:\Program Files\Microsoft Policy Platform\policyHost.exe</Image>
+	  <ImageLoaded condition="begin with">C:\Program Files\Microsoft Office\root\Office</ImageLoaded> <!-- wwlib.dll side loading FP -->
 	  <Image>C:\Windows\System32\WinSAT.exe</Image>
 	  <Image>C:\Windows\System32\wermgr.exe</Image> <!-- FP for schtask COM -->
 	  <Image>C:\Windows\System32\sdiagnhost.exe</Image><!-- FPs for wmiutil -->
 	  <ImageLoaded>C:\Windows\System32\cryptbase.dll</ImageLoaded>
-	   <ImageLoaded>C:\Windows\SysWOW64\winspool.drv</ImageLoaded>
-	   <ImageLoaded>C:\Windows\System32\winspool.drv</ImageLoaded>
-	   <ImageLoaded condition="begin with">PathC:\Windows\WinSxS</ImageLoaded>
+	  <ImageLoaded>C:\Windows\SysWOW64\winspool.drv</ImageLoaded>
+	  <ImageLoaded>C:\Windows\System32\winspool.drv</ImageLoaded>
+	  <ImageLoaded condition="begin with">PathC:\Windows\WinSxS</ImageLoaded>
 	  <ImageLoaded>C:\Windows\System32\amsi.dll</ImageLoaded>
 	  <ImageLoaded>C:\Windows\System32\msi.dll</ImageLoaded>
 	  <ImageLoaded>C:\Windows\System32\userenv.dll</ImageLoaded>
